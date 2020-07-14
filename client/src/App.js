@@ -1,13 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { createContext, useReducer } from 'react';
 import './App.css';
 import Finder from './components/Finder/Finder';
+import Login from './components/Login/Login';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { initialState, reducer } from "./store/reducer";
+
+
+export const AuthContext = createContext();
+
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <div className="App">
-      <Finder />
-    </div>
+    <AuthContext.Provider
+      value={{
+        state,
+        dispatch
+      }}
+    >
+    <Router>
+      <Switch>
+        <Route path="/login" component={Finder}/>
+        <Route path="/" component={Login}/>
+      </Switch>
+    </Router>
+    </AuthContext.Provider>
   );
 }
 
