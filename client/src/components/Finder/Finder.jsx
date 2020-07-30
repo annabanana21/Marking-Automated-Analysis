@@ -1,18 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './Finder.scss';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import {AuthContext} from '../../App';
 
-class Finder extends React.Component {
+const Finder = (props) => {
+    const { state, dispatch } = useContext(AuthContext);
 
-    state = {
-        valid: false,
-        contributers: [],
-        commits: []
-    }
+    // componentDidMount() {
+    //     axios.get("https://api.github.com/user/repos").then(res => {
+    //         console.log(res)
+    //     })
+    // }
 
-    repoFinder = () => {
+    const repoFinder = () => {
         let form = document.getElementById('standard-basic');
         const formatted = form.value.split('/');
         let base = "https://api.github.com/repos/"+formatted[3]+"/"+formatted[4];
@@ -35,30 +37,18 @@ class Finder extends React.Component {
         })
     }
 
-    render() {
-        console.log(this.state.contributers);
-        return (
-            <section className='start'>
-                <form noValidate autoComplete="off">
-                <TextField id="standard-basic" label="Repo URL" />
-                <Button variant="contained" onClick={this.repoFinder}>
-                    Find
-                </Button>
-                </form>
-                {
-                    this.state.contributers.map(person => {
-                        return (
-                            <div>
-                                <img src={person.pic}/>
-                                <h3>{person.name}</h3>
-                                <h5>{person.share}</h5>
-                            </div>
-                        )
-                    })
-                }
-            </section>
-        )
-    }
+    console.log(state)
+
+    return (
+        <section className='start'>
+            <form noValidate autoComplete="off">
+            <TextField id="standard-basic" label="Repo URL" />
+            <Button variant="contained" onClick={repoFinder}>
+                Find
+            </Button>
+            </form>
+        </section>
+    )
 }
 
 export default Finder;

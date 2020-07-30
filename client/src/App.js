@@ -8,7 +8,6 @@ import { initialState, reducer } from "./store/reducer";
 
 export const AuthContext = createContext();
 
-
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -21,7 +20,7 @@ function App() {
     >
     <Router>
       <Switch>
-        <Route path="/login" component={Finder}/>
+        <Route path="/repos" component={Finder}/>
         <Route path="/" component={Login}/>
       </Switch>
     </Router>
