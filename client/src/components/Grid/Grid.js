@@ -1,22 +1,23 @@
 import React from 'react';
-import {Grid} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
 
 const GridRow = (props) => {
 
     const createColumn = (obj) => {
         return (
-            <Grid.Column>
-            </Grid.Column>)
+            <div className="column">
+                <h3>{obj.owner.login}</h3>
+            </div>
+        )
     }
 
     return (
-        <Grid.Row>
+        <div className="row">
             {props.repos.forEach(repo => {
                 createColumn(repo)
             })}
-        </Grid.Row>
+        </div>
     )
-
 }
 
-export default GridColumns;
+export default GridRow;
