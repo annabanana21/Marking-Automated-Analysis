@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import {AuthContext} from '../../App';
+import {AccountContext} from '../../store/AccountContext';
 import dotenv from 'dotenv';
+import axios from "axios";
 
 const Login = () => {
 
-    const { state, dispatch } = useContext(AuthContext);
+    const { state, dispatch } = useContext(AccountContext);
     const [data, setData] = useState({ errorMessage: "", isLoading: false });
 
     console.log(state)
@@ -32,13 +33,9 @@ const Login = () => {
           };
     
           const proxy_url = state.proxy_url;
-    
+          console.log(newUrl[1]) 
           // Use code parameter and other parameters to make POST request to proxy_server
-          fetch(proxy_url, {
-            method: "POST",
-            body: JSON.stringify(requestData)
-          })
-            .then(response => response.json())
+          axios.post(proxy_url, requestData)
             .then(data => {
               dispatch({
                 type: "LOGIN",
@@ -55,8 +52,10 @@ const Login = () => {
       }, [state, dispatch, data]);
     
       if (state.isLoggedIn) {
-        return <Redirect to="/" />;
+        return <Redirect to="/repos" />;
       }
+
+      let access = ["user", "repo"]
     
       return (
           <section className="container">
@@ -76,7 +75,7 @@ const Login = () => {
                     }
                     <a
                       className="login-link"
-                      href={`https://github.com/login/oauth/authorize?scope=user&client_id=${client_id}&redirect_uri=${redirect_uri}`}
+                      href={`https://github.com/login/oauth/authorize?scope=${access}&client_id=${client_id}&redirect_uri=${redirect_uri}`}
                       onClick={() => {
                         setData({ ...data, errorMessage: "" });
                       }}

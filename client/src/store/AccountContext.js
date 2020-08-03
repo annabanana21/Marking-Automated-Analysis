@@ -1,20 +1,22 @@
-import React, {createContext, useState} from 'react';
+import React, {createContext, useState, useReducer} from 'react';
 import { initialState, reducer } from "./reducer";
 
-export default AccountContext = createContext();
+export const AccountContext = createContext();
 
-export const AccountProvider = (props) => {
+const AccountProvider = (props) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
 
     return (
-        <AccountContext.AccountProvider
+        <AccountContext.Provider
         value={{
             state,
             dispatch
         }}
         >
             {props.children}
-        </AccountContext.AccountProvider>
+        </AccountContext.Provider>
     )
 }
+
+export default AccountProvider;

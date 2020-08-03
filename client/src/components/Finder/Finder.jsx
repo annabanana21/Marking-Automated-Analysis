@@ -1,18 +1,15 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import './Finder.scss';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {AuthContext} from '../../App';
+import {AccountContext} from '../../store/AccountContext';
+import {Grid} from 'semantic-ui-react';
+import GridRow from '../Grid/Grid';
 
 const Finder = (props) => {
-    const { state, dispatch } = useContext(AuthContext);
-
-    // componentDidMount() {
-    //     axios.get("https://api.github.com/user/repos").then(res => {
-    //         console.log(res)
-    //     })
-    // }
+    const { state, dispatch } = useContext(AccountContext);
+    const { repoList, setRepo} = useState("");
 
     const repoFinder = () => {
         let form = document.getElementById('standard-basic');
@@ -37,16 +34,25 @@ const Finder = (props) => {
         })
     }
 
-    console.log(state)
+    const showRepos = () => {
+        const {access_token, scope, token_type} = state.user.data;
+        axios.get(`https://api.github.com/user/repos?access_token=${access_token}&scope=repo&type=all`).then(results => {
+            setRepo(results.data)
+        })
+    }
 
+    const formatRepos = () => {
+
+    }
+
+    showRepos()
+
+    console.log(state)
     return (
         <section className='start'>
-            <form noValidate autoComplete="off">
-            <TextField id="standard-basic" label="Repo URL" />
-            <Button variant="contained" onClick={repoFinder}>
-                Find
-            </Button>
-            </form>
+            <Grid columns={3} divided>
+
+            </Grid>
         </section>
     )
 }
