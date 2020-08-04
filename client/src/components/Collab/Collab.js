@@ -1,8 +1,58 @@
-import React from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import './Collab.scss';
+import {RepoContext} from '../../store/RepoContext';
+import {AccountContext} from '../../store/AccountContext';
+import axios from 'axios';
+import dynamicTime from '../../functions/daysAgo';
 
-const Collab = () => {
-    return <div></div>
+const Collab = (props) => {
+    const { repoState, repoDispatch} = useContext(RepoContext);
+    const { state, dispatch } = useContext(AccountContext);
+    const [page, setPage] = useState(1);
+
+    console.log(repoState)
+    console.log(state)
+
+    const commitPagination = () => {
+        
+    }
+
+    const getData = () => {
+        axios.all(
+            [
+                axios.post("http://localhost:8080/marking/commits", {
+                    owner: repoState.current.owner.login,
+                    key: state.user.data.access_token,
+                    repoName: repoState.current.name
+                }),
+                axios.get(repoState.current.branches_url.replace("{/branch}", '')+`?access_token=${state.user.data.access_token}`)
+            ]
+        )
+        .then(resArray => {
+            console.log(resArray)
+        })
+    }
+
+    useEffect(()=> {
+        getData();
+    }, [])
+
+    return (
+        <section className="collab">
+            <div className='collab__cont'>
+                <div className='collab__square'>
+                    <div className="collab__box"></div>
+                    <div className="collab__box">{dynamicTime(repoState.current.updated_at)}</div>
+                    <div className="collab__box"></div>
+                    <div className="collab__box"></div>
+                </div>
+                <div className="collab__active">
+                    <h5 className='collab__text'>GitHub Analysis</h5>
+                    <div className="collab__button">START</div>
+                </div>
+            </div>
+        </section>
+    )
 }
 
 export default Collab;

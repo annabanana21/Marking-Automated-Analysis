@@ -1,17 +1,16 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
+import {Link, withRouter} from 'react-router-dom';
 import './Finder.scss';
 import axios from 'axios';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import {AccountContext} from '../../store/AccountContext';
 import {RepoContext} from '../../store/RepoContext';
 import 'semantic-ui-css/semantic.min.css'
-import GridRow from '../Grid/Grid';
 
 const Finder = (props) => {
     const { state, dispatch } = useContext(AccountContext);
     const { repoState, repoDispatch} = useContext(RepoContext);
 
+    //Can be deleted or moved into analysis
     const repoFinder = () => {
         let form = document.getElementById('standard-basic');
         const formatted = form.value.split('/');
@@ -38,7 +37,6 @@ const Finder = (props) => {
     const showRepos = () => {
         const {access_token, scope, token_type} = state.user.data;
         axios.get(`https://api.github.com/user/repos?access_token=${access_token}&scope=repo&type=all`).then(results => {
-            //setRepo(results.data.sort((a,b) => (new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime() < 0) ? 1 : -1));
             repoDispatch({
                 type: "CREATE",
                 payload: { repoList: results.data.sort((a,b) => (new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime() < 0) ? 1 : -1)}
@@ -46,24 +44,37 @@ const Finder = (props) => {
         })
     }
 
-    const repoFocus = (repo) => {
-
+    const repoFocus = (e,repo) => {
+        const { history: { push } } = props;
+        e.preventDefault();
+        //Updates repo context to include focused repository
+        repoDispatch({
+            type: "UPDATE",
+            payload: { repo: repo }
+        });
+        //Re-directs to url specified by repo ID
+        push(props.match.path+"/"+repo.id)
     }
+
+
 
     const formatRepos = () => {
        return repoState.repoList.map(item => {
            let date = new Date(item.pushed_at).toDateString();
            console.log(date)
            return (
-            <div className="start__card" onClick={() => repoFocus(item)}>
-                <div className="start__owner-box">
-                    <h4 className='start__title'>{item.name}</h4>
-                    <h5 className="start__owner">{item.owner.login}</h5>
+            <Link to={props.match.path+"/"+item.id} onClick={(e) => repoFocus(e,item)}>
+                <div className="start__card">
+                    <div className="start__owner-box">
+                        <h4 className='start__title'>{item.name}</h4>
+                        <h5 className="start__owner">{item.owner.login}</h5>
+                    </div>
+                    <div className='start__content'>
+                        <p className='start__owner'>{"Last updated: "+date}</p>
+                    </div>
                 </div>
-                <div className='start__content'>
-                    <p className='start__owner'>{"Last updated: "+date}</p>
-                </div>
-            </div>)
+            </Link>
+            )
        })
     }
 
@@ -82,4 +93,4 @@ const Finder = (props) => {
     )
 }
 
-export default Finder;
+export default withRouter(Finder);
