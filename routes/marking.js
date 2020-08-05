@@ -13,13 +13,16 @@ router.post("/commits", (req, res) => {
         baseUrl: 'https://api.github.com'
     })
 
+    //Recieves all commits without limit of 100 (large repos)
     octokit.paginate(`GET /repos/${owner}/${repoName}/commits`, {
         owner: "octokit",
         repo: "rest.js",
       })
-      .then((commits) => {
-       console.log(commits)
-       res.status(200).send(commits)
+      .then(commits => {
+        res.status(200).send(commits)
+      })
+      .catch(error => {
+        res.status(400).send(error)
       });
 })
 

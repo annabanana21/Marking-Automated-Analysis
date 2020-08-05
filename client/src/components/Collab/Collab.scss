@@ -1,5 +1,11 @@
+
+* {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
 .collab {
-    padding: 5rem 0;
     background-color: #FAFAFA;
 
     &__name {
@@ -7,7 +13,6 @@
     }
 
     &__cont {
-        padding: 0 7rem;
         display: flex;
         width: 100%;
     }
@@ -22,6 +27,11 @@
     &__box {
         width: 300px;
         height: 190px;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         //border: 1px solid #523ee8;
         background-color: white;
         border-radius: 2px;
@@ -64,6 +74,30 @@
         color: white;
         font-size: 3rem;
         font-family: Arial, Helvetica, sans-serif;
+    }
+
+    &__heading {
+        color: #0D294E;
+        font-size: 3rem;
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 0;
+
+        &--small {
+            @extend .collab__heading;
+            font-size: 1.1rem;
+            font-weight: normal;
+        }
+    }
+
+    &__infograph {
+        background-color: #0AC286;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        color: white;
+        position: absolute;
+        top: 1rem;
+        left: 1rem
     }
 
     &__button {

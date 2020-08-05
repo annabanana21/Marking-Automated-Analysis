@@ -4,9 +4,9 @@ function dynamicSetter(time, phrase) {
     // REQUIRED - phrase must be an array of 2 string values (strict)
     //            - First being the singular and second the plural
     if (time === 1) {
-        return time + phrase[0];
+        return [time,  phrase[0]];
     } else {
-        return time + phrase[1];
+        return [time, phrase[1]];
     }
 }
 

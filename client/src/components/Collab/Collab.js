@@ -30,6 +30,10 @@ const Collab = (props) => {
         )
         .then(resArray => {
             console.log(resArray)
+            repoDispatch({
+                type: "COMMITS",
+                payload: { commits: resArray[0].data, branches: resArray[1].data }
+              });
         })
     }
 
@@ -41,8 +45,15 @@ const Collab = (props) => {
         <section className="collab">
             <div className='collab__cont'>
                 <div className='collab__square'>
-                    <div className="collab__box"></div>
-                    <div className="collab__box">{dynamicTime(repoState.current.updated_at)}</div>
+                    <div className="collab__box">
+                        <div className="collab__infograph">Total Commits:</div>
+                        <p className="collab__heading">{repoState.commits.length}</p>
+                    </div>
+                    <div className="collab__box">
+                        <div className="collab__infograph">Last Updated:</div>
+                        <p className="collab__heading">{dynamicTime(repoState.current.updated_at)[0]}</p>
+                        <p className="collab__heading--small">{dynamicTime(repoState.current.updated_at)[1]}</p>
+                    </div>
                     <div className="collab__box"></div>
                     <div className="collab__box"></div>
                 </div>

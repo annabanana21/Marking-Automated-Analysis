@@ -1,6 +1,7 @@
 export const initialState = {
     current: {},
-    repoList: []
+    repoList: [],
+    commits: []
 }
 
 export const reducerRepo = (state, action) => {
@@ -8,13 +9,22 @@ export const reducerRepo = (state, action) => {
       case "UPDATE": {
         return {
           ...state,
-          current: action.payload.repo
+          current: action.payload.repo,
+          commits: []
         };
       }
       case "CREATE": {
         return {
             repoList: action.payload.repoList,
-            current: {}
+            current: {},
+            commits: []
+        }
+      }
+      case "COMMITS": {
+        return {
+          ...state,
+          commits: action.payload.commits,
+          branches: action.payload.branches
         }
       }
       default:

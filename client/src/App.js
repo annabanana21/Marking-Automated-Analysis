@@ -6,6 +6,7 @@ import Collab from './components/Collab/Collab';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AccountProvider from './store/AccountContext';  
 import RepoProvider from './store/RepoContext';
+import RepoPage from './pages/RepoPage/RepoPage';
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
       <RepoProvider>
       <Router>
         <Switch>
-          <Route path="/repos/:repoId" component={Collab}/>
+          <Route path="/repos/:repoId" component={RepoPage}/>
           <Route path="/repos" component={Finder}/>
           <Route path="/" component={Login}/>
         </Switch>
