@@ -17,56 +17,28 @@
         padding: 1rem;
     }
 
-    &__card {
+    &__button {
+        padding: 0.5rem 2rem;
+        border: 0.5px solid #523EE8;
+        color: #523EE8;
+        border-radius: 5px;
 
-        margin: 1em 0;
-        max-width: 100%;
-        position: relative;
+        &--alt {
+            @extend .start__button;
+            color: white;
+            background-color: #523EE8;
+        }
+    }
+
+    &__instruct {
+        padding: 1rem;
+        border-radius: 5px;
+        height: 60%;
+        width: 25%;
+        border: 0.5px solid #523EE8;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        width: 500px;
-        min-height: 0;
-        background: #fff;
-        padding: 0;
-        //border: 1px solid #523ee8;
-        border-radius: .28571429rem;
-        box-shadow: 0 1px 3px 0 #523ee8, 0 0 0 1px #523ee8;
-        transition: box-shadow .1s ease,transform .1s ease;
-
-        &:first-child {
-            margin-top: 0;
-        }
-
-        &:hover {
-            cursor: pointer;
-        }
-    }
-
-    &__owner {
-        color: #523EE8;
-        font-size: 0.8rem;
-        font-family: Arial, Helvetica, sans-serif;
-        margin: 0;
-
-        &-box {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: .8rem
-        }
-    }
-
-    &__title {
-        @extend .start__owner;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-
-    &__content {
-        border-top: 0.5px solid #523EE8;
-        width: 100%;
-        padding: 0.8rem
+        align-items: center;
+        margin-right: 2rem;
     }
 }

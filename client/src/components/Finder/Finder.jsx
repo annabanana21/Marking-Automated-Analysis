@@ -1,14 +1,17 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import './Finder.scss';
 import axios from 'axios';
 import {AccountContext} from '../../store/AccountContext';
 import {RepoContext} from '../../store/RepoContext';
 import 'semantic-ui-css/semantic.min.css'
+import Repo from '../Repo/Repo';
 
 const Finder = (props) => {
     const { state, dispatch } = useContext(AccountContext);
     const { repoState, repoDispatch} = useContext(RepoContext);
+    const [multiSelect, isSelected] = useState(false);
+    const [repoSelected, selectRepos] = useState([]);
 
     //Can be deleted or moved into analysis
     const repoFinder = () => {
@@ -45,15 +48,19 @@ const Finder = (props) => {
     }
 
     const repoFocus = (e,repo) => {
-        const { history: { push } } = props;
-        e.preventDefault();
-        //Updates repo context to include focused repository
-        repoDispatch({
-            type: "UPDATE",
-            payload: { repo: repo }
-        });
-        //Re-directs to url specified by repo ID
-        push(props.match.path+"/"+repo.id)
+        if (multiSelect) {
+            selectRepos([...repoSelected, repo])
+        } else {
+            const { history: { push } } = props;
+            e.preventDefault();
+            //Updates repo context to include focused repository
+            repoDispatch({
+                type: "UPDATE",
+                payload: { repo: repo }
+            });
+            //Re-directs to url specified by repo ID
+            push(props.match.path+"/"+repo.id)
+        }
     }
 
 
@@ -63,17 +70,7 @@ const Finder = (props) => {
            let date = new Date(item.pushed_at).toDateString();
            console.log(date)
            return (
-            <Link to={props.match.path+"/"+item.id} onClick={(e) => repoFocus(e,item)}>
-                <div className="start__card">
-                    <div className="start__owner-box">
-                        <h4 className='start__title'>{item.name}</h4>
-                        <h5 className="start__owner">{item.owner.login}</h5>
-                    </div>
-                    <div className='start__content'>
-                        <p className='start__owner'>{"Last updated: "+date}</p>
-                    </div>
-                </div>
-            </Link>
+                <Repo repoFocus={repoFocus} item={item} date={date}/>
             )
        })
     }
@@ -82,10 +79,22 @@ const Finder = (props) => {
         showRepos()
     }, [])
 
-    console.log(repoState)
+    useEffect(() => {
+
+    }, [multiSelect])
+
+    console.log(repoSelected)
+
+    let button = <div className='start__button--alt' onClick={() => isSelected(!multiSelect)}>Multi Select</div>
+    if (multiSelect) {
+        button = <div className='start__button' onClick={() => isSelected(!multiSelect)}>Multi Select</div>
+    }
 
     return (
         <section className='start'>
+            <div className='start__instruct'>
+                {button}
+            </div>
             <div className="start__box">
                 {repoState.repoList.length > 0 && formatRepos()}
             </div>
