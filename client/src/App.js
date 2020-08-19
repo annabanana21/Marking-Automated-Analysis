@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AccountProvider from './store/AccountContext';  
 import RepoProvider from './store/RepoContext';
 import RepoPage from './pages/RepoPage/RepoPage';
+import Analysis from './components/Analysis/Analysis';
 
 function App() {
 
@@ -15,9 +16,10 @@ function App() {
       <RepoProvider>
       <Router>
         <Switch>
+          <Route path={"/repos/:repoId/analysis"} component={Analysis}/>
           <Route path="/repos/:repoId" component={RepoPage}/>
           <Route path="/repos" component={Finder}/>
-          <Route path="/" component={Login}/>
+          <Route path="/" component={Analysis}/>
         </Switch>
       </Router>
       </RepoProvider>

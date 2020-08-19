@@ -1,4 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import './Collab.scss';
 import {RepoContext} from '../../store/RepoContext';
 import {AccountContext} from '../../store/AccountContext';
@@ -59,7 +60,7 @@ const Collab = (props) => {
                 </div>
                 <div className="collab__active">
                     <h5 className='collab__text'>GitHub Analysis</h5>
-                    <div className="collab__button">START</div>
+                    <Link to={props.path}><div className="collab__button">START</div></Link>
                 </div>
             </div>
         </section>

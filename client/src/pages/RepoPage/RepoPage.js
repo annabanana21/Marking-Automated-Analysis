@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react';
 import './RepoPage.scss';
 import Collab from '../../components/Collab/Collab';
 import Title from '../../components/Title/Title';
+import {Route} from 'react-router-dom';
+import Analysis from '../../components/Analysis/Analysis';
 
 
-const RepoPage = () => {
+const RepoPage = (props) => {
     const [showPath, isShown] = useState(false)
 
     const promptSearch = () => {
@@ -19,10 +21,12 @@ const RepoPage = () => {
 
     }, [showPath])
 
+    console.log(props.match)
+   
     return (
         <div className="rep">
             <Title />
-            <Collab />
+            <Collab path={props.match.url+"/analysis"}/>
             {!showPath && <div className='start__button' onClick={promptSearch}>Choose Directory</div>}
             {showPath && <form onSubmit={handleSearch}><input directory="" webkitdirectory="" type="file" onChange={handleSearch} /></form>}
         </div>
