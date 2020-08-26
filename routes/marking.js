@@ -3,7 +3,12 @@ const router = express.Router()
 const { Octokit } = require("@octokit/rest");
 
 
-router.post("/commits", (req, res) => {
+const infoGetter = async(octokit, owner, repoName) => {
+  
+}
+
+
+router.post("/commits", async (req, res) => {
 
     const {key, owner, repoName} = req.body;
 
@@ -14,16 +19,37 @@ router.post("/commits", (req, res) => {
     })
 
     //Recieves all commits without limit of 100 (large repos)
-    octokit.paginate(`GET /repos/${owner}/${repoName}/commits`, {
+
+    try {
+      let commits = await octokit.paginate(`GET /repos/${owner}/${repoName}/commits`, {
         owner: "octokit",
         repo: "rest.js",
       })
-      .then(commits => {
-        res.status(200).send(commits)
+      let issues = await octokit.paginate(`GET /repos/${owner}/${repoName}/issues?state=all`, {
+        owner: "octokit",
+        repo: "rest.js",
       })
-      .catch(error => {
-        res.status(400).send(error)
-      });
+      let pullInfo = await Promise.all(
+        issues.map(async issue => {
+          let url = issue.comments_url.replace("https://api.github.com", "")
+          let comments = 0;
+          if (issue.comments > 0) {
+            comments = await octokit.paginate(`GET ${url}`, {
+              owner: "octokit",
+              repo: "rest.js",
+            })
+          }
+          return {
+            pull: issue,
+            comments: comments
+          }
+        })
+      )
+      res.status(200).send([commits, pullInfo])
+    }
+    catch (err) {
+      res.status(400).send("Something went wrong")
+    }
 })
 
 module.exports = router;

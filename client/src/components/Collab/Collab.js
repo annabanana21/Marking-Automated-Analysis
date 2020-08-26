@@ -33,7 +33,7 @@ const Collab = (props) => {
             console.log(resArray)
             repoDispatch({
                 type: "COMMITS",
-                payload: { commits: resArray[0].data, branches: resArray[1].data }
+                payload: { commits: resArray[0].data[0], branches: resArray[1].data, pulls: resArray[0].data[1] }
               });
         })
     }

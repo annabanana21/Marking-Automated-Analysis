@@ -19,7 +19,7 @@ function App() {
           <Route path={"/repos/:repoId/analysis"} component={Analysis}/>
           <Route path="/repos/:repoId" component={RepoPage}/>
           <Route path="/repos" component={Finder}/>
-          <Route path="/" component={Analysis}/>
+          <Route path="/" component={Login}/>
         </Switch>
       </Router>
       </RepoProvider>

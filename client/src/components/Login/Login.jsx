@@ -33,10 +33,11 @@ const Login = () => {
           };
     
           const proxy_url = state.proxy_url;
-          console.log(newUrl[1]) 
+          console.log(proxy_url) 
           // Use code parameter and other parameters to make POST request to proxy_server
           axios.post(proxy_url, requestData)
             .then(data => {
+              console.log(data)
               dispatch({
                 type: "LOGIN",
                 payload: { user: data, isLoggedIn: true }
@@ -49,7 +50,7 @@ const Login = () => {
               });
             });
         }
-      }, [state, dispatch, data]);
+      }, [state, dispatch]);
     
       if (state.isLoggedIn) {
         return <Redirect to="/repos" />;

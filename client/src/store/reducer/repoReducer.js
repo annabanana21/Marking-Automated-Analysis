@@ -17,14 +17,16 @@ export const reducerRepo = (state, action) => {
         return {
             repoList: action.payload.repoList,
             current: {},
-            commits: []
+            commits: [],
+            pulls: []
         }
       }
       case "COMMITS": {
         return {
           ...state,
           commits: action.payload.commits,
-          branches: action.payload.branches
+          branches: action.payload.branches,
+          pulls: action.payload.pulls
         }
       }
       default:
