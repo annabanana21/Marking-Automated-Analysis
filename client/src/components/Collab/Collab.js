@@ -9,14 +9,10 @@ import dynamicTime from '../../functions/daysAgo';
 const Collab = (props) => {
     const { repoState, repoDispatch} = useContext(RepoContext);
     const { state, dispatch } = useContext(AccountContext);
-    const [page, setPage] = useState(1);
+    const [load, setLoading] = useState(true);
 
     console.log(repoState)
     console.log(state)
-
-    const commitPagination = () => {
-        
-    }
 
     const getData = () => {
         axios.all(
@@ -30,17 +26,25 @@ const Collab = (props) => {
             ]
         )
         .then(resArray => {
-            console.log(resArray)
             repoDispatch({
                 type: "COMMITS",
-                payload: { commits: resArray[0].data[0], branches: resArray[1].data, pulls: resArray[0].data[1] }
+                payload: { commits: resArray[0].data, branches: resArray[1].data, }
               });
+            setLoading(false)
         })
     }
 
     useEffect(()=> {
         getData();
     }, [])
+
+    useEffect(()=> {
+        getData();
+    }, [setLoading])
+
+    if (load) {
+        return <div>Loading...</div>
+    }
 
     return (
         <section className="collab">

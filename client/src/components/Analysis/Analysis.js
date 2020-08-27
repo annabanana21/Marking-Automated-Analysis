@@ -13,7 +13,7 @@ const Analysis = () => {
 
     useEffect(() => {
         console.log(repoState)
-        console.log(repoAnalysis(repoState))
+        
     }, [])
 
     const organizeCommits = () => {

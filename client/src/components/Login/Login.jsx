@@ -44,6 +44,7 @@ const Login = () => {
               });
             })
             .catch(error => {
+              console.log(error)
               setData({
                 isLoading: false,
                 errorMessage: "Sorry! Login failed"

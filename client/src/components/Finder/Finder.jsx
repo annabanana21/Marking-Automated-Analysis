@@ -13,33 +13,15 @@ const Finder = (props) => {
     const [multiSelect, isSelected] = useState(false);
     const [repoSelected, selectRepos] = useState([]);
 
-    //Can be deleted or moved into analysis
-    const repoFinder = () => {
-        let form = document.getElementById('standard-basic');
-        const formatted = form.value.split('/');
-        let base = "https://api.github.com/repos/"+formatted[3]+"/"+formatted[4];
-        axios.all(
-            [
-                axios.get(base),
-                axios.get(base+"/contributors"),
-                axios.get(base+"/pulls?state=all"),
-            ]
-        ).then(results => {
-            console.log(results);
-            this.setState({contributers: results[1].data.map(person => {
-                return {
-                name: person.login,
-                pic: person.avatar_url,
-                share: person.contributions,
-                comments: []
-            }
-            })})
-        })
-    }
+    console.log(state)
 
     const showRepos = () => {
-        const {access_token, scope, token_type} = state.user.data;
-        axios.get(`https://api.github.com/user/repos?access_token=${access_token}&scope=repo&type=all`).then(results => {
+        const {access_token, scope, token_type, user} = state.user.data;
+        
+        axios.post("http://localhost:8080/marking/repos", {
+            key: access_token, 
+            owner: user.login
+        }).then(results => {
             console.log(results.data)
             repoDispatch({
                 type: "CREATE",
