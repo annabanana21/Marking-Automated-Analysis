@@ -40,6 +40,7 @@ const Finder = (props) => {
     const showRepos = () => {
         const {access_token, scope, token_type} = state.user.data;
         axios.get(`https://api.github.com/user/repos?access_token=${access_token}&scope=repo&type=all`).then(results => {
+            console.log(results.data)
             repoDispatch({
                 type: "CREATE",
                 payload: { repoList: results.data.sort((a,b) => (new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime() < 0) ? 1 : -1)}
