@@ -1,5 +1,7 @@
 export const initialState = {
     isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn")) || false,
+    isLoggedInJira: JSON.parse(localStorage.getItem("isLoggedInJira")) || false,
+    jiraData: JSON.parse(localStorage.getItem("jiraData")) || null,
     user: JSON.parse(localStorage.getItem("user")) || null,
     client_id: /*process.env.REACT_APP_CLIENT_ID,*/ "6bafcc20d274364fb660",
     redirect_uri: /*process.env.REACT_APP_REDIRECT_URI,*/ "http://localhost:3000",
@@ -12,12 +14,20 @@ export const initialState = {
       case "LOGIN": {
         localStorage.setItem("isLoggedIn", JSON.stringify(action.payload.isLoggedIn))
         localStorage.setItem("user", JSON.stringify(action.payload.user))
-        console.log(action.payload.isLoggedIn)
         return {
           ...state,
           isLoggedIn: action.payload.isLoggedIn,
           user: action.payload.user
         };
+      }
+      case "LOGINJIRA": {
+        localStorage.setItem("isLoggedInJira", JSON.stringify(action.payload.isLoggedInJira))
+        localStorage.setItem("jiraData", JSON.stringify(action.payload.data))
+        return {
+          ...state,
+          isLoggedInJira: action.payload.isLoggedInJira,
+          jiraData: action.payload.data
+        }
       }
       case "LOGOUT": {
         localStorage.clear()

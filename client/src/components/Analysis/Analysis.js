@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {AccountContext} from '../../store/AccountContext';
 import {RepoContext} from '../../store/RepoContext';
+import axios from 'axios';
 import repoAnalysis from '../../functions/repoAnalysis';
 import './Analysis.scss'
 
@@ -12,46 +13,27 @@ const Analysis = () => {
 
 
     useEffect(() => {
-        console.log(repoState)
+        axios.post("http://localhost:8080/marking/analysis", {
+            owner: repoState.current.owner.login,
+            key: state.user.data.access_token,
+            repoName: repoState.current.name
+        }).then(res => {
+            console.log(repoAnalysis({pulls: res.data, commits: repoState.commits}))
+            let {access_token, clientId} = state.jiraData;
+            axios.post("http://localhost:8080/jira/boards", {
+                cloud: clientId,
+                key: access_token
+            }).then(results => {
+                console.log(results)
+            })
+        })
         
     }, [])
-
-    const organizeCommits = () => {
-        let workers = {};
-        repoState.commits.forEach(commit => {
-            if (commit.author) {
-                let user = commit.author.login
-                if (!workers[user]) {
-                    workers[user] = {
-                        commits: 1
-                    }
-                } else {
-                    workers[user].commits++
-                }
-            } 
-        })
-
-        return workers;
-    }
-
-    // if (!collabs) {
-    //     return <div>Loading..</div>
-
-    // {
-    //     collab1: {
-    //         commits: 0,
-    //         comments: 0,
-    //         pullRequests: 0,
-    //         pullsApproved: 0,
-    //     }
-    // }
-    // }
 
 
     return (
         <section className='any'>
             <h2 className='any__title'>Participation Breakdown</h2>
-
         </section>
     )
 

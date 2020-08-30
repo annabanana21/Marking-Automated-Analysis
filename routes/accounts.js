@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const FormData = require('form-data');
-const fetch = require('node-fetch');
+require('dotenv').config();
+
 
 
 router.post("/", async (req, res) => {

@@ -6,6 +6,7 @@ import {AccountContext} from '../../store/AccountContext';
 import {RepoContext} from '../../store/RepoContext';
 import 'semantic-ui-css/semantic.min.css'
 import Repo from '../Repo/Repo';
+import JiraAuth from '../JiraAuth/JiraAuth';
 
 const Finder = (props) => {
     const { state, dispatch } = useContext(AccountContext);
@@ -81,6 +82,7 @@ const Finder = (props) => {
             <div className="start__box">
                 {repoState.repoList.length > 0 && formatRepos()}
             </div>
+            <JiraAuth url={props.match.url}/>
         </section>
     )
 }

@@ -4,21 +4,31 @@ import Collab from '../../components/Collab/Collab';
 import Title from '../../components/Title/Title';
 import {Route} from 'react-router-dom';
 import Analysis from '../../components/Analysis/Analysis';
+import axios from 'axios';
 
 
 const RepoPage = (props) => {
-    const [showPath, isShown] = useState(false)
+    const [showPath, isShown] = useState("")
 
-    const promptSearch = () => {
-        isShown(!showPath)
+    const direct = () => {
+        axios.get("http://localhost:8080/jira/auth").then(res => {
+            console.log(res)
+        })
     }
 
-    const handleSearch = (event) => {
-        console.log(event)
-    }
+    // const promptSearch = () => {
+    //     isShown(!showPath)
+    // }
+
+    // const handleSearch = (event) => {
+    //     console.log(event)
+    // }
     
     useEffect(() => {
+    }, [])
 
+    useEffect(() => {
+        
     }, [showPath])
 
     console.log(props.match)
@@ -30,7 +40,8 @@ const RepoPage = (props) => {
         <div className="rep">
             <Title />
             <Collab path={props.match.url+"/analysis"}/>
-        
+            
+                    
         </div>
     )
 }
