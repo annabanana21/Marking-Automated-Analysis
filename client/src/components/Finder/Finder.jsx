@@ -50,7 +50,8 @@ const Finder = (props) => {
 
 
     const formatRepos = () => {
-       return repoState.repoList.map(item => {
+        let shortened = repoState.repoList.slice(0,3);
+       return shortened.map(item => {
            let date = new Date(item.pushed_at).toDateString();
            console.log(date)
            return (
@@ -76,13 +77,13 @@ const Finder = (props) => {
 
     return (
         <section className='start'>
-            <div className='start__instruct'>
-                {button}
+        <div className="start__box">
+            <h4>Most Recent</h4>
+        
+            <div className="">
+            {repoState.repoList.length > 0 && formatRepos()}
             </div>
-            <div className="start__box">
-                {repoState.repoList.length > 0 && formatRepos()}
             </div>
-            <JiraAuth url={props.match.url}/>
         </section>
     )
 }

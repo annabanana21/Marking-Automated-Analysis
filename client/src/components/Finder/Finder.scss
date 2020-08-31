@@ -5,16 +5,24 @@
 .start {
     height: 100vh;
     width: 100vw;
+    background-color: #F4F7FA;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &__box {
-        width: 80vh;
-        height: 80vh;
-        overflow: scroll;
-        overflow-x: hidden;
         padding: 1rem;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        //border: 1px solid #523ee8;
+        background-color: white;
+        border-radius: 2px;
+        box-shadow: 0 0.5px 5px 0 #e1e1e1; 
+        width: fit-content;
+        height: fit-content;
     }
 
     &__button {

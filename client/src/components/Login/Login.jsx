@@ -3,7 +3,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import {AccountContext} from '../../store/AccountContext';
 import dotenv from 'dotenv';
+import './Login.scss';
 import axios from "axios";
+import poster from '../../assets/hero2.png';
 
 const Login = () => {
 
@@ -60,34 +62,29 @@ const Login = () => {
       let access = ["user", "repo"]
     
       return (
-          <section className="container">
-            <div>
-              <h1>Welcome</h1>
-              <span>Super amazing app</span>
+          <section className="log">
+            <div className='log__blurb'>
+              <h1 className='log__title'>Let automation do the work for you.</h1>
+              <p>With marking auto analyze student repositories, efficiently install workspaces, and run tests.</p>
               <span>{data.errorMessage}</span>
               <div className="login-container">
-                {data.isLoading ? (
-                  <div className="loader-container">
-                    <div className="loader"></div>
-                  </div>
-                ) : (
                   <>
                     {
                       // Link to request GitHub access
                     }
                     <a
-                      className="login-link"
+                      className="log__link"
                       href={`https://github.com/login/oauth/authorize?scope=${access}&client_id=${client_id}&redirect_uri=${redirect_uri}`}
                       onClick={() => {
                         setData({ ...data, errorMessage: "" });
                       }}
                     >
-                      <span>Login with GitHub</span>
+                      <div className='log__in'>Login with GitHub</div>
                     </a>
                   </>
-                )}
               </div>
             </div>
+            <img className='log__img' src={poster}/>
           </section>
       );
 }
