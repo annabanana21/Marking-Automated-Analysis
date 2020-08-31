@@ -7,15 +7,15 @@
         max-width: 100%;
         position: relative;
         display: flex;
-        flex-direction: column;
+        
         justify-content: center;
         width: 400px;
-        min-height: 0;
+        height: fit-content;
         background: #fff;
         padding: 0;
-        //border: 1px solid #523ee8;
-        border-radius: .28571429rem;
-        box-shadow: 0 1px 3px 0 #1C1E26, 0 0 0 1px #1C1E26;
+        
+        border-radius: 5px;
+        box-shadow: 0 0.5px 5px 0 #e1e1e1;
         transition: box-shadow .1s ease,transform .1s ease;
 
         &:first-child {
@@ -24,6 +24,7 @@
 
         &:hover {
             cursor: pointer;
+            background-color: #FAFAFA;
         }
 
         &--alt {
@@ -42,10 +43,11 @@
         &-box {
             width: 100%;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            position: relative;
             align-items: center;
-            padding: .5rem;
-            background-color: #F4F7FA;
+            padding: 1rem;
+            //background-color: #F4F7FA;
         }
 
         &--alt {
@@ -65,8 +67,22 @@
         }
     }
 
+    &__top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+
+    &__date {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        @extend .repo__owner
+    }
+
     &__content {
-        border-top: 0.5px solid #1C1E26;
+        background-color: #F4F7FA;;
         width: 100%;
         padding: 0.5rem;
 
@@ -74,6 +90,10 @@
             @extend .repo__content;
             border-top: 0.5px solid white;
         }
+    }
+
+    &__folder {
+        max-height: 64px;
     }
 
 }

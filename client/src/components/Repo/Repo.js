@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import './Repo.scss';
+import folder from '../../assets/folder.svg'
 
 const Repo = (props) => {
 
@@ -14,12 +15,14 @@ const Repo = (props) => {
 
     return (
         <div className={!colored ? "repo__card" : "repo__card--alt"} onClick={(e) => focus(e,item)}>
+            <img className='repo__folder' src={folder}/>
             <div className="repo__owner-box">
-                <h4 className={!colored ? "repo__title" : "repo__title--alt"}>{item.name}</h4>
-                <h5 className={!colored ? "repo__owner" : "repo__owner--alt"}>{item.owner.login}</h5>
-            </div>
-            <div className={!colored ? "repo__content" : "repo__content--alt"}>
-                <p className={!colored ? "repo__owner" : "repo__owner--alt"}>{"Last updated: "+date}</p>
+                <div className='repo__top'>
+                    <h4 className={!colored ? "repo__title" : "repo__title--alt"}>{item.name}</h4>
+                    <h5 className={!colored ? "repo__owner" : "repo__owner--alt"}>{item.owner.login}</h5>
+                </div>
+                <p className="repo__date">{"Last updated: "+date}</p>
+                
             </div>
         </div>
     )

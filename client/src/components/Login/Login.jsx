@@ -5,7 +5,7 @@ import {AccountContext} from '../../store/AccountContext';
 import dotenv from 'dotenv';
 import './Login.scss';
 import axios from "axios";
-import poster from '../../assets/hero2.png';
+import poster from '../../assets/home.png';
 
 const Login = () => {
 
@@ -63,9 +63,10 @@ const Login = () => {
     
       return (
           <section className="log">
+            <h2 className='log__logo'>automark</h2>
             <div className='log__blurb'>
               <h1 className='log__title'>Let automation do the work for you.</h1>
-              <p>With marking auto analyze student repositories, efficiently install workspaces, and run tests.</p>
+              <p>With automark analyze student repositories, efficiently install workspaces, and run user-driven tests.</p>
               <span>{data.errorMessage}</span>
               <div className="login-container">
                   <>

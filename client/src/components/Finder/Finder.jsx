@@ -14,6 +14,8 @@ const Finder = (props) => {
     const [multiSelect, isSelected] = useState(false);
     const [repoSelected, selectRepos] = useState([]);
 
+    const [expand, setExpand] = useState(false);
+
     console.log(state)
 
     const showRepos = () => {
@@ -50,7 +52,10 @@ const Finder = (props) => {
 
 
     const formatRepos = () => {
-        let shortened = repoState.repoList.slice(0,3);
+        let shortened = repoState.repoList
+        if (!expand) {
+            shortened = repoState.repoList.slice(0,3);
+        }
        return shortened.map(item => {
            let date = new Date(item.pushed_at).toDateString();
            console.log(date)
@@ -68,6 +73,17 @@ const Finder = (props) => {
 
     }, [multiSelect])
 
+    useEffect(() => {
+        let box = document.querySelector(".start__expand")
+        if(expand) {
+            box.style.height = "80vh"
+            box.style.overflow = "scroll";
+        } else {
+            box.style.height = "fit-content";
+            box.style.overflow = "auto";
+        }
+    }, [expand])
+
     console.log(repoSelected)
 
     let button = <div className='start__button--alt' onClick={() => isSelected(!multiSelect)}>Multi Select</div>
@@ -75,14 +91,21 @@ const Finder = (props) => {
         button = <div className='start__button' onClick={() => isSelected(!multiSelect)}>Multi Select</div>
     }
 
+    let controlButton = <button onClick={() => {setExpand(true)}}>Show All</button>
+    if (expand) {
+        controlButton = <button onClick={() => {setExpand(false)}}>Show Less</button>
+    }
+
     return (
         <section className='start'>
+        <h2>Welcome {state.user.data.user.login}!</h2>
         <div className="start__box">
             <h4>Most Recent</h4>
         
-            <div className="">
+            <div className="start__expand">
             {repoState.repoList.length > 0 && formatRepos()}
             </div>
+            {controlButton}
             </div>
         </section>
     )

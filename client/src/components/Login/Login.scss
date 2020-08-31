@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
 
 .log {
     padding: 0 5rem;
@@ -10,8 +11,15 @@
     justify-content: center;
     align-items: center;
 
+    &__logo {
+        position: absolute;
+        top: 2rem;
+        left: 4rem;
+        font-family: 'Noto Serif', serif;
+    }
+
     &__title {
-        font-family: Arial, Helvetica, sans-serif;
+       
         font-size: 3rem;
         font-family: 'Poppins', sans-serif;
     }
