@@ -9,6 +9,7 @@ import axios from 'axios';
 
 const RepoPage = (props) => {
     const [showPath, isShown] = useState("")
+    
 
     const direct = () => {
         axios.get("http://localhost:8080/jira/auth").then(res => {
@@ -31,7 +32,7 @@ const RepoPage = (props) => {
         
     }, [showPath])
 
-    console.log(props.match)
+    console.log()
 
     //{!showPath && <div className='start__button' onClick={promptSearch}>Choose Directory</div>}
     // {showPath && <form onSubmit={handleSearch}><input directory="" webkitdirectory="" type="file" onChange={handleSearch} /></form>}

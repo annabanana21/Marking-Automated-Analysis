@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+}
+
+.user {
+    border-radius: 5px;
+    box-shadow: 0 0.5px 5px 0 #e1e1e1;
+    height: 100px;
+    width: 70%;
+    display: flex;
+    margin-bottom: 1rem;
+
+    &__box {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    &__short {
+        margin-right: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__pic {
+        height: 100%;
+        border-radius: 5px;
+    }
+
+    &__data {
+        display: flex;
+    }
+}

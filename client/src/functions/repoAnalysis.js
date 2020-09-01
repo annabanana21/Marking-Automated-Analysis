@@ -4,8 +4,9 @@ function repoAnalysis(repoState) {
     let workers = {};
         //Adding commit statistics
         repoState.commits.forEach(commit => {
-            if (commit.author) {
-                let user = commit.author.login
+            if (commit.commit.author) {
+                let user;
+                commit.author ? user = commit.author.login : user = commit.commit.author.name;
                 addToObject(workers, user, "commits")
             } 
         })

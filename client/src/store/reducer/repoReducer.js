@@ -26,7 +26,7 @@ export const reducerRepo = (state, action) => {
           ...state,
           commits: action.payload.commits,
           branches: action.payload.branches,
-          pulls: action.payload.pulls
+          collaborators: action.payload.collaborators
         }
       }
       default:

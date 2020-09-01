@@ -60,6 +60,7 @@
         @extend .repo__owner;
         font-weight: bold;
         font-size: 1rem;
+        margin-right: 1rem;
 
         &--alt {
             @extend .repo__title;

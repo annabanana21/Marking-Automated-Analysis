@@ -22,13 +22,14 @@ const Collab = (props) => {
                     key: state.user.data.access_token,
                     repoName: repoState.current.name
                 }),
-                axios.get(repoState.current.branches_url.replace("{/branch}", '')+`?access_token=${state.user.data.access_token}`)
+                axios.get(repoState.current.branches_url.replace("{/branch}", '')+`?access_token=${state.user.data.access_token}`),
+                axios.get(repoState.current.collaborators_url.replace("{/collaborator}", '')+`?access_token=${state.user.data.access_token}`)
             ]
         )
         .then(resArray => {
             repoDispatch({
                 type: "COMMITS",
-                payload: { commits: resArray[0].data, branches: resArray[1].data, }
+                payload: { commits: resArray[0].data, branches: resArray[1].data, collaborators: resArray[2].data}
               });
             setLoading(false)
         })
