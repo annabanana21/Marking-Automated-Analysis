@@ -17,7 +17,7 @@ const Collab = (props) => {
     const getData = () => {
         axios.all(
             [
-                axios.post("http://localhost:8080/marking/commits", {
+                axios.post(`${process.env.REACT_APP_REDIRECT_URI}marking/commits`, {
                     owner: repoState.current.owner.login,
                     key: state.user.data.access_token,
                     repoName: repoState.current.name

@@ -10,13 +10,11 @@ const Analysis = () => {
     const { state, dispatch } = useContext(AccountContext);
     const { repoState, repoDispatch} = useContext(RepoContext);
     const [collabs, setCollabs] = useState(null);
-    const [url, setUrl] = useState(
-        "http://localhost:8080/marking/analysis",
-      );
+    
 
 
     useEffect(() => {
-            axios.post("http://localhost:8080/marking/analysis", {
+            axios.post(`${process.env.REACT_APP_REDIRECT_URI}marking/analysis`, {
                 owner: repoState.current.owner.login,
                 key: state.user.data.access_token,
                 repoName: repoState.current.name
@@ -27,7 +25,7 @@ const Analysis = () => {
 
             console.log("hello")
         
-    }, [url])
+    }, [])
 
     useEffect(() => {
        console.log(collabs)
