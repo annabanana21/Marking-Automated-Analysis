@@ -6,18 +6,16 @@ import pic from '../../assets/folder.svg';
 
 const Profile = (props) => {
     const { repoState, repoDispatch} = useContext(RepoContext);
-    const [expand, setExpand] = useState(false);
     
     let {name, collaborator} = props;
     let profile = repoState.collaborators.find(person => person.login === name);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    }, [expand])
-    
+    // }, [])
+
     return (
-        <div className='user' onClick={setExpand(!expand)}>
-            <div>
+        <div className='user' >
                 <img src={profile ? profile.avatar_url : pic} className='user__pic'/>
                 <div className='user__box'>
                     <h4 className='user__name'>{name}</h4>
@@ -32,10 +30,6 @@ const Profile = (props) => {
                         </div>
                     </div>
                 </div>
-                {expand && (
-                    <div>Hello</div>
-                )}
-            </div>
         </div>
     )
 

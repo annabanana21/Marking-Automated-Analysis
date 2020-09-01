@@ -10,10 +10,12 @@ const Analysis = () => {
     const { state, dispatch } = useContext(AccountContext);
     const { repoState, repoDispatch} = useContext(RepoContext);
     const [collabs, setCollabs] = useState(null);
+    const [url, setUrl] = useState(
+        "http://localhost:8080/marking/analysis",
+      );
 
 
     useEffect(() => {
-        if (!collabs) {
             axios.post("http://localhost:8080/marking/analysis", {
                 owner: repoState.current.owner.login,
                 key: state.user.data.access_token,
@@ -22,9 +24,10 @@ const Analysis = () => {
                 console.log(repoState.commits)
                 setCollabs(repoAnalysis({pulls: res.data, commits: repoState.commits}))
             })
-        }
+
+            console.log("hello")
         
-    }, [])
+    }, [url])
 
     useEffect(() => {
        console.log(collabs)

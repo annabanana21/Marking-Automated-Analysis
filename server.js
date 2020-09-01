@@ -19,4 +19,4 @@ app.use('/authenticate', authRoute)
 app.use('/jira', jiraRoute)
 
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+app.listen(port, () => console.log(`automark listening at ${port}`))
