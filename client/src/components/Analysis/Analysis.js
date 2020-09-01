@@ -14,7 +14,7 @@ const Analysis = () => {
 
 
     useEffect(() => {
-            axios.post(`${process.env.REACT_APP_REDIRECT_URI}marking/analysis`, {
+            axios.post(`${process.env.REACT_APP_BACKEND}marking/analysis`, {
                 owner: repoState.current.owner.login,
                 key: state.user.data.access_token,
                 repoName: repoState.current.name

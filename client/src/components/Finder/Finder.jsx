@@ -21,7 +21,7 @@ const Finder = (props) => {
     const showRepos = () => {
         const {access_token, scope, token_type, user} = state.user.data;
         
-        axios.post(`${process.env.REACT_APP_REDIRECT_URI}marking/repos`, {
+        axios.post(`${process.env.REACT_APP_BACKEND}marking/repos`, {
             key: access_token, 
             owner: user.login
         }).then(results => {
