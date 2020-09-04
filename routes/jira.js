@@ -4,7 +4,6 @@ const router = express.Router();
 const axios = require('axios');
 var crypto = require('crypto');
 var uuid = require('node-uuid');
-OAuth = require('oauth').OAuth;
 require('dotenv').config()
 
 
