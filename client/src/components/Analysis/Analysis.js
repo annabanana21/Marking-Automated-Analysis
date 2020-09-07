@@ -14,17 +14,23 @@ const Analysis = () => {
 
 
     useEffect(() => {
+
+        axios.all([
             axios.post(`${process.env.REACT_APP_BACKEND}marking/analysis`, {
                 owner: repoState.current.owner.login,
                 key: state.user.data.access_token,
                 repoName: repoState.current.name
-            }).then(res => {
-                console.log(repoState.commits)
-                setCollabs(repoAnalysis({pulls: res.data, commits: repoState.commits}))
+            }),
+            axios.post(`${process.env.REACT_APP_BACKEND}marking/boards`, {
+                clientId: state.jiraData.clientId,
+                access_token: state.jiraData.access_token
             })
-
-            console.log("hello")
-        
+        ])
+        .then(res => {
+            console.log(res)
+            //setCollabs(repoAnalysis({pulls: res[0].data], commits: repoState.commits}))
+        })
+    
     }, [])
 
     useEffect(() => {

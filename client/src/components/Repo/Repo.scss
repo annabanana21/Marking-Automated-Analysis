@@ -18,9 +18,7 @@
         box-shadow: 0 0.5px 5px 0 #e1e1e1;
         transition: box-shadow .1s ease,transform .1s ease;
 
-        &:first-child {
-            margin-top: 0;
-        }
+       
 
         &:hover {
             cursor: pointer;

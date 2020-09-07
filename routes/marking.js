@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { Octokit } = require("@octokit/rest");
+const axios = require('axios');
 
 
 
@@ -58,6 +59,24 @@ router.post("/analysis", async (req, res) => {
   } catch (err) {
     res.status(400).send("Something went wrong")
   }
+})
+
+router.post("/boards", async (req, res) => {
+
+  let {access_token, clientId} = req.body;
+
+  try {
+    let boards = await axios.get(`https://api.atlassian.com/ex/jira/${clientId}/rest/api/2/project`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+    res.status(201).send(boards.data)
+  } catch (err) {
+    console.log(err)
+    res.status(400).send(err)
+  }
+
 })
 
 

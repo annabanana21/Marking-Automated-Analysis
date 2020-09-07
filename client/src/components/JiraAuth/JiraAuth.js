@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import {AccountContext} from '../../store/AccountContext';
+import './JiraAuth.scss';
 import dotenv from 'dotenv';
 import axios from "axios";
 
@@ -54,10 +55,10 @@ const JiraAuth = () => {
       let access = ["user", "repo"]
     
       return (
-          <section className="container">
+          <section className="jira">
             <div>
-              <h1>Welcome</h1>
-              <span>Super amazing app</span>
+              <h2>Configure Jira</h2>
+              <p>Does your GitHub repository have an associated Jira board? Configure your Jira account to combine the analytics.</p>
               <span>{data.errorMessage}</span>
               <div className="login-container">
                 {data.isLoading ? (

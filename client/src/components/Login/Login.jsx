@@ -56,7 +56,7 @@ const Login = () => {
       }, [state, dispatch]);
     
       if (state.isLoggedIn) {
-        return <Redirect to="/repos" />;
+        return <Redirect to="/jira" />;
       }
 
       let access = ["user", "repo"]
