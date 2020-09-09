@@ -79,6 +79,23 @@ router.post("/boards", async (req, res) => {
 
 })
 
+router.post("/board/:boardName", async (req, res) => {
+  let {access_token, clientId} = req.body;
+
+
+  try {
+    let board = await axios.get(`https://api.atlassian.com/ex/jira/${clientId}/rest/api/3/search?jql=project="${req.params.boardName}"`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+    res.status(201).send(board.data)
+  } catch (err) {
+    console.log(err)
+    res.status(400).send(err)
+  }
+})
+
 
 
 router.post("/commits", async (req, res) => {

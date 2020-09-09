@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link,  Redirect} from 'react-router-dom';
 import './Collab.scss';
 import {RepoContext} from '../../store/RepoContext';
 import {AccountContext} from '../../store/AccountContext';
@@ -9,7 +9,10 @@ import dynamicTime from '../../functions/daysAgo';
 const Collab = (props) => {
     const { repoState, repoDispatch} = useContext(RepoContext);
     const { state, dispatch } = useContext(AccountContext);
+    const [boards, setBoards] = useState([]);
     const [load, setLoading] = useState(true);
+    const [show, showModal] = useState(false);
+    const [start, setStart] = useState(false);
 
     console.log(repoState)
     console.log(state)
@@ -23,7 +26,11 @@ const Collab = (props) => {
                     repoName: repoState.current.name
                 }),
                 axios.get(repoState.current.branches_url.replace("{/branch}", '')+`?access_token=${state.user.data.access_token}`),
-                axios.get(repoState.current.collaborators_url.replace("{/collaborator}", '')+`?access_token=${state.user.data.access_token}`)
+                axios.get(repoState.current.collaborators_url.replace("{/collaborator}", '')+`?access_token=${state.user.data.access_token}`),
+                axios.post(`${process.env.REACT_APP_BACKEND}marking/boards`, {
+                    clientId: state.jiraData.clientId,
+                    access_token: state.jiraData.access_token
+                })
             ]
         )
         .then(resArray => {
@@ -31,20 +38,36 @@ const Collab = (props) => {
                 type: "COMMITS",
                 payload: { commits: resArray[0].data, branches: resArray[1].data, collaborators: resArray[2].data}
               });
+            console.log(resArray[3].data)
+            setBoards(resArray[3].data)
             setLoading(false)
         })
     }
+
+    const addBoard = (event) => {
+        event.preventDefault();
+        repoDispatch({
+            type: "BOARD",
+            payload: {boardId: event.target.boards.value}
+        });
+        setStart(true)
+    }
+
 
     useEffect(()=> {
         getData();
     }, [])
 
     useEffect(()=> {
-        getData();
-    }, [setLoading])
+    }, [load, show, start])
 
     if (load) {
         return <div>Loading...</div>
+    }
+
+    if (start) {
+        return <Redirect to={props.path}/>
+
     }
 
     return (
@@ -65,9 +88,19 @@ const Collab = (props) => {
                 </div>
                 <div className="collab__active">
                     <h5 className='collab__text'>GitHub Analysis</h5>
-                    <Link to={props.path}><div className="collab__button">START</div></Link>
+                    <div className="collab__button" onClick={() => showModal(!show)}>START</div>
                 </div>
             </div>
+            {show && 
+                (<div>
+                    <p>Add a Jira Board</p>
+                    <form onSubmit={addBoard}>
+                        <select name="boards" id="boards">
+                            {boards.map(board => <option value={board.name}>{board.name}</option>)}
+                        </select>
+                        <button type='submit'>Configure Board</button>
+                    </form>
+                </div>)}
         </section>
     )
 }

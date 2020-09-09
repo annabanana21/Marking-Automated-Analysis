@@ -29,6 +29,12 @@ export const reducerRepo = (state, action) => {
           collaborators: action.payload.collaborators
         }
       }
+      case "BOARD": {
+        return {
+          ...state,
+          boardId: action.payload.boardId
+        }
+      }
       default:
         return state;
     }

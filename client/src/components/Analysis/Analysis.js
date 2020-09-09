@@ -21,14 +21,14 @@ const Analysis = () => {
                 key: state.user.data.access_token,
                 repoName: repoState.current.name
             }),
-            axios.post(`${process.env.REACT_APP_BACKEND}marking/boards`, {
+            axios.post(`${process.env.REACT_APP_BACKEND}marking/board/${repoState.boardId}`, {
                 clientId: state.jiraData.clientId,
                 access_token: state.jiraData.access_token
             })
         ])
         .then(res => {
             console.log(res)
-            //setCollabs(repoAnalysis({pulls: res[0].data], commits: repoState.commits}))
+            setCollabs(repoAnalysis({pulls: res[0].data, commits: repoState.commits, tickets: res[1].data.issues}))
         })
     
     }, [])

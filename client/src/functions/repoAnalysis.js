@@ -33,6 +33,19 @@ function repoAnalysis(repoState) {
 
         })
 
+        //Adding ticket statistics
+        repoState.tickets.forEach(ticket => {
+            if (ticket.fields.assignee) {
+                const user = ticket.fields.assignee.displayName;
+                const {summary, status} = ticket.fields
+                const ticketBody = {
+                    title: summary,
+                    status: status
+                }
+                addToObjectArray(workers, user, "tickets", ticketBody)
+            }
+        })
+
         return workers;
 }
 
@@ -48,8 +61,12 @@ function addToObject(workers, user, stat) {
 }
 
 function addToObjectArray(workers, user, stat, body) {
-    if (!workers[user][stat]) {
+    if (!workers[user]) {
+        workers[user] = {}
         workers[user][stat] = [body]
+    }
+    else if (!workers[user][stat]) {
+        workers[user][stat] = [...body]
     } else {
         workers[user][stat].push(body)
     }
