@@ -37,15 +37,17 @@ const Analysis = () => {
        console.log(collabs)
     }, [collabs])
 
+
     if (!collabs) {
         return false
     }
+    console.log(collabs)
     return (
         <section className='any'>
             <h2 className='any__title'>Participation Breakdown</h2>
             {
-                Object.keys(collabs).map(collaborator => {
-                    return <Profile collaborator={collabs[collaborator]} name={collaborator}/>
+                [...collabs].map(collaborator => {
+                    return <Profile collaborator={collaborator[1]} name={collaborator[0]}/>
                 })
             }
         </section>

@@ -21,12 +21,16 @@ const Profile = (props) => {
                     <h4 className='user__name'>{name}</h4>
                     <div className='user__data'>
                         <div className='user__short'>
-                            <h5>{collaborator.commits}</h5>
+                            <h5>{collaborator.commits ? collaborator.commits : 0}</h5>
                             <p>commits</p>
                         </div>
                         <div>
-                            <h5>{collaborator.pullRequests ? collaborator.pullRequests : 0}</h5>
+                            <h5>{collaborator.pullRequests ? collaborator.pullRequests.length : 0}</h5>
                             <p>pull requests</p>
+                        </div>
+                        <div>
+                            <h5>{collaborator.tickets ? collaborator.tickets.length : 0}</h5>
+                            <p>tickets</p>
                         </div>
                     </div>
                 </div>
