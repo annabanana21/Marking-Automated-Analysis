@@ -5,6 +5,7 @@ import axios from 'axios';
 import repoAnalysis from '../../functions/repoAnalysis';
 import './Analysis.scss'
 import Profile from '../Profile/Profile';
+import Split from '../Split/Split';
 
 const Analysis = () => {
     const { state, dispatch } = useContext(AccountContext);
@@ -28,28 +29,24 @@ const Analysis = () => {
         ])
         .then(res => {
             console.log(res)
-            setCollabs(repoAnalysis({pulls: res[0].data, commits: repoState.commits, tickets: res[1].data.issues}))
+            repoDispatch({
+                type: "ANALYSIS",
+                payload: { analysis: repoAnalysis({pulls: res[0].data, commits: repoState.commits, tickets: res[1].data.issues})}
+              })
+              setCollabs(true);
         })
     
     }, [])
-
-    useEffect(() => {
-       console.log(collabs)
-    }, [collabs])
 
 
     if (!collabs) {
         return false
     }
-    console.log(collabs)
+    
     return (
         <section className='any'>
             <h2 className='any__title'>Participation Breakdown</h2>
-            {
-                [...collabs].map(collaborator => {
-                    return <Profile collaborator={collaborator[1]} name={collaborator[0]}/>
-                })
-            }
+            <Split />
         </section>
     )
 

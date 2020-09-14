@@ -35,6 +35,12 @@ export const reducerRepo = (state, action) => {
           boardId: action.payload.boardId
         }
       }
+      case "ANALYSIS": {
+        return {
+          ...state,
+          analysis: action.payload.analysis
+        }
+      }
       default:
         return state;
     }
