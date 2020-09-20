@@ -12,7 +12,7 @@ const Analysis = () => {
     const { repoState, repoDispatch} = useContext(RepoContext);
     const [collabs, setCollabs] = useState(null);
     
-
+    console.log(repoState)
 
     useEffect(() => {
 

@@ -16,7 +16,7 @@ const Finder = (props) => {
 
     const [expand, setExpand] = useState(false);
 
-    console.log(state)
+    console.log(repoState)
 
     const showRepos = () => {
         const {access_token, scope, token_type, user} = state.user.data;

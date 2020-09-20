@@ -1,27 +1,43 @@
+const storageState = JSON.parse(localStorage.getItem("repo"));
+
 export const initialState = {
-    current: {},
-    repoList: [],
-    commits: []
+    current: storageState.current || {},
+    repoList: storageState.repoList || [],
+    commits: storageState.commits || [],
+    analysis: new Map(storageState.analysis) || {},
+    boardId: storageState.boardId || null,
+    collaborators: storageState.collaborators || [],
+    branches: storageState.branches || []
 }
 
 export const reducerRepo = (state, action) => {
+    let localVersion = JSON.parse(localStorage.getItem("repo"))
     switch (action.type) {
       case "UPDATE": {
+        localVersion.current = action.payload.repo
+        localStorage.setItem("repo", JSON.stringify(localVersion))
         return {
           ...state,
           current: action.payload.repo,
           commits: []
         };
       }
+
       case "CREATE": {
+        localStorage.setItem("repo", JSON.stringify({
+            repoList: action.payload.repoList
+        }))
         return {
-            repoList: action.payload.repoList,
-            current: {},
-            commits: [],
-            pulls: []
+          ...state,
+          repoList: action.payload.repoList
         }
       }
+
       case "COMMITS": {
+        localVersion.commits = action.payload.commits;
+        localVersion.branches = action.payload.branches;
+        localVersion.collaborators = action.payload.collaborators;
+        localStorage.setItem("repo", JSON.stringify(localVersion))
         return {
           ...state,
           commits: action.payload.commits,
@@ -30,12 +46,16 @@ export const reducerRepo = (state, action) => {
         }
       }
       case "BOARD": {
+        localVersion.boardId = action.payload.boardId
+        localStorage.setItem("repo", JSON.stringify(localVersion))
         return {
           ...state,
           boardId: action.payload.boardId
         }
       }
       case "ANALYSIS": {
+        localVersion.analysis = Array.from(action.payload.analysis)
+        localStorage.setItem("repo", JSON.stringify(localVersion))
         return {
           ...state,
           analysis: action.payload.analysis
