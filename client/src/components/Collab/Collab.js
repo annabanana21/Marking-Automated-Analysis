@@ -1,5 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
-import {Link,  Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import './Collab.scss';
 import {RepoContext} from '../../store/RepoContext';
 import {AccountContext} from '../../store/AccountContext';
@@ -8,16 +8,24 @@ import dynamicTime from '../../functions/daysAgo';
 
 const Collab = (props) => {
     const { repoState, repoDispatch} = useContext(RepoContext);
-    const { state, dispatch } = useContext(AccountContext);
+    const { state} = useContext(AccountContext);
     const [boards, setBoards] = useState([]);
     const [load, setLoading] = useState(true);
     const [show, showModal] = useState(false);
     const [start, setStart] = useState(false);
 
-    console.log(repoState)
-    console.log(state)
 
-    const getData = () => {
+    const addBoard = (event) => {
+        event.preventDefault();
+        repoDispatch({
+            type: "BOARD",
+            payload: {boardId: event.target.boards.value}
+        });
+        setStart(true)
+    }
+
+
+    useEffect(()=> {
         axios.all(
             [
                 axios.post(`${process.env.REACT_APP_BACKEND}marking/commits`, {
@@ -42,20 +50,6 @@ const Collab = (props) => {
             setBoards(resArray[3].data)
             setLoading(false)
         })
-    }
-
-    const addBoard = (event) => {
-        event.preventDefault();
-        repoDispatch({
-            type: "BOARD",
-            payload: {boardId: event.target.boards.value}
-        });
-        setStart(true)
-    }
-
-
-    useEffect(()=> {
-        getData();
     }, [])
 
     useEffect(()=> {

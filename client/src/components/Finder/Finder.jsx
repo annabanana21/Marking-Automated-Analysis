@@ -1,37 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import './Finder.scss';
 import axios from 'axios';
 import {AccountContext} from '../../store/AccountContext';
 import {RepoContext} from '../../store/RepoContext';
 import 'semantic-ui-css/semantic.min.css'
 import Repo from '../Repo/Repo';
-import JiraAuth from '../JiraAuth/JiraAuth';
 
 const Finder = (props) => {
-    const { state, dispatch } = useContext(AccountContext);
+    const { state } = useContext(AccountContext);
     const { repoState, repoDispatch} = useContext(RepoContext);
     const [multiSelect, isSelected] = useState(false);
     const [repoSelected, selectRepos] = useState([]);
 
     const [expand, setExpand] = useState(false);
-
-    console.log(repoState)
-
-    const showRepos = () => {
-        const {access_token, scope, token_type, user} = state.user.data;
-        
-        axios.post(`${process.env.REACT_APP_BACKEND}marking/repos`, {
-            key: access_token, 
-            owner: user.login
-        }).then(results => {
-            console.log(results.data)
-            repoDispatch({
-                type: "CREATE",
-                payload: { repoList: results.data.sort((a,b) => (new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime() < 0) ? 1 : -1)}
-              });
-        })
-    }
 
     const repoFocus = (e,repo) => {
         if (multiSelect) {
@@ -58,20 +40,25 @@ const Finder = (props) => {
         }
        return shortened.map(item => {
            let date = new Date(item.pushed_at).toDateString();
-           console.log(date)
            return (
-                <Repo repoFocus={repoFocus} item={item} date={date}/>
+                <Repo key={item.id} repoFocus={repoFocus} item={item} date={date}/>
             )
        })
     }
 
     useEffect(() => {
-        showRepos()
+        const {access_token, user} = state.user.data;
+        
+        axios.post(`${process.env.REACT_APP_BACKEND}marking/repos`, {
+            key: access_token, 
+            owner: user.login
+        }).then(results => {
+            repoDispatch({
+                type: "CREATE",
+                payload: { repoList: results.data.sort((a,b) => (new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime() < 0) ? 1 : -1)}
+              });
+        })
     }, [])
-
-    useEffect(() => {
-
-    }, [multiSelect])
 
     useEffect(() => {
         let box = document.querySelector(".start__expand")
@@ -84,7 +71,6 @@ const Finder = (props) => {
         }
     }, [expand])
 
-    console.log(repoSelected)
 
     let button = <div className='start__button--alt' onClick={() => isSelected(!multiSelect)}>Multi Select</div>
     if (multiSelect) {

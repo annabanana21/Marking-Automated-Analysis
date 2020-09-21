@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import {AccountContext} from '../../store/AccountContext';
 import './JiraAuth.scss';
-import dotenv from 'dotenv';
 import axios from "axios";
 
 const JiraAuth = () => {
@@ -46,13 +45,11 @@ const JiraAuth = () => {
               });
             });
         }
-      }, []);
+      }, [data, dispatch]);
     
       if (state.isLoggedInJira) {
         return <Redirect to="/repos" />;
       }
-
-      let access = ["user", "repo"]
     
       return (
           <section className="jira">

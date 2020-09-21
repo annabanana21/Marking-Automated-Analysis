@@ -1,14 +1,29 @@
 const storageState = JSON.parse(localStorage.getItem("repo"));
 
-export const initialState = {
-    current: storageState.current || {},
-    repoList: storageState.repoList || [],
-    commits: storageState.commits || [],
-    analysis: new Map(storageState.analysis) || {},
-    boardId: storageState.boardId || null,
-    collaborators: storageState.collaborators || [],
-    branches: storageState.branches || []
+let initialState;
+
+if (storageState) {
+  initialState = {
+      current: storageState.current || {},
+      repoList: storageState.repoList || [],
+      commits: storageState.commits || [],
+      analysis: new Map(storageState.analysis) || {},
+      boardId: storageState.boardId || null,
+      collaborators: storageState.collaborators || [],
+      branches: storageState.branches || []
+  }
+} else {
+  initialState = {
+    current: {},
+    repoList: [],
+    commits: [],
+    analysis: {},
+    boardId: null,
+    collaborators: [],
+    branches: []
 }
+}
+
 
 export const reducerRepo = (state, action) => {
     let localVersion = JSON.parse(localStorage.getItem("repo"))
@@ -65,3 +80,5 @@ export const reducerRepo = (state, action) => {
         return state;
     }
   };
+
+  export {initialState};

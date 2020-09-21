@@ -1,19 +1,20 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {AccountContext} from '../../store/AccountContext';
+import React, {useState, useContext} from 'react';
 import {RepoContext} from '../../store/RepoContext';
 import './Profile.scss'
 import pic from '../../assets/folder.svg';
 
 const Profile = (props) => {
-    const { repoState, repoDispatch} = useContext(RepoContext);
-    const [expand, setExpand] = useState(false)
+    const { repoState} = useContext(RepoContext);
+    const [expand, setExpand] = useState(false);
+ 
+    let {name, collaborator, innerRef} = props;
+
     
-    let {name, collaborator} = props;
     let profile = repoState.collaborators.find(person => person.login === name);
 
     return (
-        <div className='user' onClick={() => setExpand(!expand)}>
-                <img src={profile ? profile.avatar_url : pic} className='user__pic'/>
+        <div className='user'  >
+                <img src={profile ? profile.avatar_url : pic} className='user__pic' alt='user avatar'/>
                 <div className='user__box'>
                     <h4 className='user__name'>{name}</h4>
                     <div className='user__data'>

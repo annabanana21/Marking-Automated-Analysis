@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import {AccountContext} from '../../store/AccountContext';
-import dotenv from 'dotenv';
 import './Login.scss';
 import axios from "axios";
 import poster from '../../assets/home.png';
@@ -53,7 +52,7 @@ const Login = () => {
               });
             });
         }
-      }, [state, dispatch]);
+      }, [state, dispatch, data]);
     
       if (state.isLoggedIn) {
         return <Redirect to="/jira" />;

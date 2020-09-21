@@ -2,7 +2,7 @@ function repoAnalysis(repoState) {
 
     // Object will hold the names and related data to each collaborator
     let workers = new Map();
-    let ticketList = new Map();
+    // let ticketList = new Map();
         //Adding commit statistics
         repoState.commits.forEach(commit => {
             if (commit.commit.author) {

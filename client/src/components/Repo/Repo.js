@@ -15,7 +15,7 @@ const Repo = (props) => {
 
     return (
         <div className={!colored ? "repo__card" : "repo__card--alt"} onClick={(e) => focus(e,item)}>
-            <img className='repo__folder' src={folder}/>
+            <img className='repo__folder' src={folder} alt="repository icon"/>
             <div className="repo__owner-box">
                 <div className='repo__top'>
                     <h4 className={!colored ? "repo__title" : "repo__title--alt"}>{item.name}</h4>
