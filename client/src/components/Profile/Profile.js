@@ -13,7 +13,7 @@ const Profile = (props) => {
     let profile = repoState.collaborators.find(person => person.login === name);
 
     return (
-        <div className='user'  >
+        <div className='user' onClick={() => setExpand(!expand)}>
                 <img src={profile ? profile.avatar_url : pic} className='user__pic' alt='user avatar'/>
                 <div className='user__box'>
                     <h4 className='user__name'>{name}</h4>
