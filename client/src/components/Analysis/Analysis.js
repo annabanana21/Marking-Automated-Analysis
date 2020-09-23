@@ -28,7 +28,7 @@ const Analysis = () => {
             })
         ])
         .then(res => {
-            console.log(res)
+            console.log(res[0].data)
             repoDispatch({
                 type: "ANALYSIS",
                 payload: { analysis: repoAnalysis({pulls: res[0].data, commits: repoState.commits, tickets: res[1].data.issues})}

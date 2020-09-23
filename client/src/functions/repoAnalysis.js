@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 function repoAnalysis(repoState) {
 
     // Object will hold the names and related data to each collaborator
@@ -9,13 +11,15 @@ function repoAnalysis(repoState) {
                 let user;
                 commit.author ? user = commit.author.login : user = commit.commit.author.name;
                 addToMap(workers, user, "commits")
+                
             } 
         })
 
-        console.log(repoState.pulls[0])
+        console.log(repoState.pulls)
 
         //Adding pull request statistics
         repoState.pulls.forEach(pull => {
+            console.log(pull)
             const {user, body, title, state, html_url} = pull.pull
             
             const pullBody = {
@@ -33,7 +37,7 @@ function repoAnalysis(repoState) {
                 }
             }
 
-            if (pull.comments !== 0) {
+            if (pull.comments) {
                 pull.comments.forEach(comment => {
                     let userName = comment.user.login;
                     let body = comment.body;

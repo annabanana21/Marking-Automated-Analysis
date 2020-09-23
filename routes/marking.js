@@ -34,24 +34,37 @@ router.post("/analysis", async (req, res) => {
   })
 
   try {
-    let issues = await octokit.paginate(`GET /repos/${owner}/${repoName}/issues?state=all`, {
+    // let issues = await octokit.paginate(`GET /repos/${owner}/${repoName}/issues?state=all`, {
+    //   owner: "octokit",
+    //   repo: "rest.js",
+    // })
+
+    let pulls = await octokit.paginate(`GET /repos/${owner}/${repoName}/pulls?state=all`, {
       owner: "octokit",
       repo: "rest.js",
     })
   
     let pullInfo = await Promise.all(
-      issues.map(async issue => {
-        let url = issue.comments_url.replace("https://api.github.com", "")
-        let comments = 0;
-        if (issue.comments > 0) {
-          comments = await octokit.paginate(`GET ${url}`, {
-            owner: "octokit",
-            repo: "rest.js",
+      pulls.map(async issue => {
+        let url = issue.review_comments_url.replace("https://api.github.com", "")
+        let commentUrl = issue.comments_url.replace("https://api.github.com", "")
+        
+        //TODO: comments URL shows the same one 20 times....
+  
+        comments = await octokit.paginate(`GET ${commentUrl}`, {
+          owner: "octokit",
+          repo: "rest.js",
+        })
+
+          reviewComments = await octokit.paginate(`GET ${url}`, {
+              owner: "octokit",
+              repo: "rest.js",
           })
-        }
+      
         return {
           pull: issue,
-          comments: comments
+          // reviewComments: reviewComments,
+          comments: reviewComments
         }
       })
     )
@@ -98,6 +111,7 @@ router.post("/board/:boardName", async (req, res) => {
 
 
 
+
 router.post("/commits", async (req, res) => {
 
     const {key, owner, repoName} = req.body;
@@ -119,7 +133,7 @@ router.post("/commits", async (req, res) => {
       res.status(200).send(commits)
     }
     catch (err) {
-      res.status(400).send("Something went wrong")
+      res.status(400).send(`Something went wrong: ${err}`)
     }
 })
 

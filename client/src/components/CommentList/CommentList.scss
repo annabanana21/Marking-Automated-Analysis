@@ -1,0 +1,11 @@
+.comments {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 2px solid black;
+
+    &__title {
+        color: #0D294E;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+    }
+}
