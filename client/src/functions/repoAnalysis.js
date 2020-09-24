@@ -19,7 +19,7 @@ function repoAnalysis(repoState) {
 
         //Adding pull request statistics
         repoState.pulls.forEach(pull => {
-            console.log(pull)
+            
             const {user, body, title, state, html_url} = pull.pull
             
             const pullBody = {
@@ -42,6 +42,14 @@ function repoAnalysis(repoState) {
                     let userName = comment.user.login;
                     let body = comment.body;
                     addToMapArray(workers, userName, "comments", body)
+                })
+            }
+
+            if (pull.reviewComments) {
+                pull.reviewComments.forEach(comment => {
+                    let userName = comment.user.login;
+                    let body = comment.body;
+                    addToMapArray(workers, userName, "reviewComments", body)
                 })
             }
 

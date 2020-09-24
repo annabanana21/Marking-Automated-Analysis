@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {RepoContext} from '../../store/RepoContext';
 import './Profile.scss'
-import pic from '../../assets/folder.svg';
+import pic from '../../assets/web-programming.svg';
 import CommentList from '../CommentList/CommentList';
 
 const Profile = (props) => {
@@ -21,21 +21,27 @@ const Profile = (props) => {
                         <h4 className='user__name'>{name}</h4>
                         <div className='user__data'>
                             <div className='user__short'>
-                                <h5>{collaborator.commits ? collaborator.commits : 0}</h5>
-                                <p>commits</p>
+                                <h5 className='user__number'>{collaborator.commits ? collaborator.commits : 0}</h5>
+                                <p className='user__sub'>commits</p>
                             </div>
-                            <div>
-                                <h5>{collaborator.pullRequests ? collaborator.pullRequests.length : 0}</h5>
-                                <p>pull requests</p>
+                            <div className='user__short'>
+                                <h5 className='user__number'>{collaborator.pullRequests ? collaborator.pullRequests.length : 0}</h5>
+                                <p className='user__sub'>pull requests</p>
                             </div>
-                            <div>
-                                <h5>{collaborator.tickets ? collaborator.tickets.length : 0}</h5>
-                                <p>tickets</p>
+                            <div className='user__short'>
+                                <h5 className='user__number'>{collaborator.tickets ? collaborator.tickets.length : 0}</h5>
+                                <p className='user__sub'>tickets</p>
                             </div>
                         </div>
+                        {expand ? <p className='user__show--clicked'>Show Less ^ </p> : <p className='user__show'>Show More v </p>}
                     </div>
                 </div>
-                {expand && <CommentList title="GitHub Comments" commentList={collaborator.comments || []}/>}
+                {expand && (
+                    <div className='user__more'>
+                    { collaborator.comments && <CommentList title="GitHub Comments" commentList={collaborator.comments}/> }
+                    { collaborator.reviewComments && <CommentList title="GitHub Review Comments" commentList={collaborator.reviewComments}/> }
+                    </div>
+                )}
         </div>
     )
 

@@ -4,6 +4,7 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "server.js",
   "dependencies": {
+    "@octokit/request": "^5.4.9",
     "@octokit/rest": "^18.0.3",
     "auth0-js": "^9.13.4",
     "axios": "^0.19.2",

@@ -7,12 +7,16 @@ const CommentList = (props) => {
     const [showAll, setShowing] = useState(false)
     const {commentList, title} = props;
 
+
+
     return (
         <div className='comments' onClick={(e) => e.stopPropagation()}>
-            <h5 className='comments__title'>{title}</h5>
-            {commentList.map(comment => {
-                return <p>{comment}</p>
-            })}
+            <h5 className='comments__title' onClick={() => setShowing(!showAll)}>{title}</h5>
+            <div className='comments__box' style={{padding: showAll ? "0" : "0"}}>
+                { showAll && commentList.map(comment => {
+                    return <p className='comments__row'>{comment}</p>
+                })}
+            </div>
         </div>
     )
 

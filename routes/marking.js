@@ -38,11 +38,13 @@ router.post("/analysis", async (req, res) => {
     //   owner: "octokit",
     //   repo: "rest.js",
     // })
+    console.log("fuck")
 
     let pulls = await octokit.paginate(`GET /repos/${owner}/${repoName}/pulls?state=all`, {
       owner: "octokit",
       repo: "rest.js",
     })
+
   
     let pullInfo = await Promise.all(
       pulls.map(async issue => {
@@ -50,26 +52,28 @@ router.post("/analysis", async (req, res) => {
         let commentUrl = issue.comments_url.replace("https://api.github.com", "")
         
         //TODO: comments URL shows the same one 20 times....
-  
-        comments = await octokit.paginate(`GET ${commentUrl}`, {
+        
+
+        let comments = await octokit.paginate(`GET ${commentUrl}`, {
           owner: "octokit",
           repo: "rest.js",
-        })
+      })
 
-          reviewComments = await octokit.paginate(`GET ${url}`, {
-              owner: "octokit",
-              repo: "rest.js",
-          })
+        let reviewComments = await octokit.paginate(`GET ${url}`, {
+            owner: "octokit",
+            repo: "rest.js",
+        })
       
         return {
           pull: issue,
-          // reviewComments: reviewComments,
-          comments: reviewComments
+          reviewComments: reviewComments,
+          comments: comments
         }
       })
     )
     res.status(200).send(pullInfo)
   } catch (err) {
+    console.log(err)
     res.status(400).send("Something went wrong")
   }
 })
