@@ -13,8 +13,8 @@ const Split = (props) => {
     return (
         <section className='split'>
             <div className='split__box'>
-                <h4 className='split__tab' onClick={() => setCurrent(true)}>People</h4>
-                <h4 className='split__tab' onClick={() => setCurrent(false)}>Tickets</h4>
+                <h4 className={current ? 'split__tab' : 'split__tab--dark'} onClick={() => setCurrent(true)}>People</h4>
+                <h4 className={!current ? 'split__tab' : 'split__tab--dark'} onClick={() => setCurrent(false)}>Tickets</h4>
             </div>
             <div className='split__content'>
             {

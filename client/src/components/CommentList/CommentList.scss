@@ -16,8 +16,8 @@
     }
 
     &__box {
-        max-height: 250px;
-        overflow-y: auto;
+        max-height: 150px;
+        overflow: auto;
         padding: 0.4rem 1rem;
         border: 0.5px solid $text;
     }

@@ -28,7 +28,7 @@ const Analysis = () => {
             })
         ])
         .then(res => {
-            console.log(res[0].data)
+            console.log(res[1].data)
             // res[0].data.forEach(pull => {
             //     axios.get(`${pull.pull.comments_url}?access_token=${state.user.data.access_token}`).then(res => {
             //         console.log(pull.pull.title)

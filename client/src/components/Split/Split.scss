@@ -13,8 +13,17 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
 
+        &:hover {
+            cursor: pointer;
+        }
+
         &:nth-child(2) {
             margin-left: 2rem;
+        }
+
+        &--dark {
+            @extend .split__tab;
+            background-color: #E0E0E0;
         }
     }
 
