@@ -16,7 +16,7 @@ const UserView = (props) => {
         if ((isMerging && mergeList.length === 0) || (!isMerging && regular.length === 0)) {
             let people = []
             let ind = 0
-            for (let [key, value] of repoState.analysis) {
+            for (let [key, value] of repoState.analysis[0]) {
                 isMerging ?
                 people.push(
                     <Droppable droppableId={`${key}1`}>

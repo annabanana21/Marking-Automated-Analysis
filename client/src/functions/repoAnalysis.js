@@ -4,7 +4,7 @@ function repoAnalysis(repoState) {
 
     // Object will hold the names and related data to each collaborator
     let workers = new Map();
-    // let ticketList = new Map();
+    let ticketList = [];
         //Adding commit statistics
         repoState.commits.forEach(commit => {
             if (commit.commit.author) {
@@ -40,16 +40,16 @@ function repoAnalysis(repoState) {
             if (pull.comments) {
                 pull.comments.forEach(comment => {
                     let userName = comment.user.login;
-                    let body = comment.body;
-                    addToMapArray(workers, userName, "comments", body)
+                    let {body, id} = comment;
+                    addToMapArray(workers, userName, "comments", {body, id})
                 })
             }
 
             if (pull.reviewComments) {
                 pull.reviewComments.forEach(comment => {
                     let userName = comment.user.login;
-                    let body = comment.body;
-                    addToMapArray(workers, userName, "reviewComments", body)
+                    let {body, id} = comment;
+                    addToMapArray(workers, userName, "reviewComments", {body, id})
                 })
             }
 
@@ -57,25 +57,16 @@ function repoAnalysis(repoState) {
 
         //Adding ticket statistics
         repoState.tickets.forEach(ticket => {
-            if (ticket.fields.assignee) {
-                const user = ticket.fields.assignee.displayName;
-                const {summary, status} = ticket.fields
-                const {key} = ticket;
-                const ticketBody = {
-                    title: summary,
-                    status: status,
-                    id: key.substring(key.length-2, key.length),
-                    
-                }
-
-                ticketBody.pulls = findAssociated(ticketBody, repoState.pulls)
-                
-                addToMapArray(workers, user, "tickets", ticketBody)
+            let ticketNumber = Number(ticket.key.substring(ticket.key.length-2, ticket.key.length));
+            ticketList.push({...ticket, ticketNumber})
+            if (ticket.user) {
+                ticket.pulls = findAssociated(ticket, repoState.pulls)
+                addToMapArray(workers, ticket.user, "tickets", ticket)
             }
         })
 
 
-        return combineNames(workers);
+        return [combineNames(workers), ticketList];
 }
 
 function addToMap(workers, user, stat) {

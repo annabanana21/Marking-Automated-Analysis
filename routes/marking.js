@@ -57,7 +57,7 @@ router.post("/analysis", async (req, res) => {
         let comments = await octokit.paginate(`GET ${commentUrl}`, {
           owner: "octokit",
           repo: "rest.js",
-      })
+        })
 
         let reviewComments = await octokit.paginate(`GET ${url}`, {
             owner: "octokit",
@@ -106,7 +106,32 @@ router.post("/board/:boardName", async (req, res) => {
         'Authorization': `Bearer ${access_token}`
       }
     })
-    res.status(201).send(board.data)
+
+    let fullBoardData = await Promise.all(
+      board.data.issues.map( async issue => {
+
+        const {assignee, summary, status} = issue.fields;
+
+        console.log(issue.fields.assignee)
+
+        let comments = await axios.get(`https://api.atlassian.com/ex/jira/${clientId}/rest/api/3/issue/${issue.id}/comment` , { headers: {
+          'Authorization': `Bearer ${access_token}`
+        }})
+
+        let user;
+        !assignee ? user = null : user = assignee.displayName
+
+        return {
+          user: user,
+          key: issue.key,
+          summary: summary,
+          comments: comments.data.comments,
+          status: status.name
+        }
+      })
+    )
+
+    res.status(201).send(fullBoardData)
   } catch (err) {
     console.log(err)
     res.status(400).send(err)

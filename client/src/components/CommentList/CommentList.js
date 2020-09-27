@@ -14,7 +14,7 @@ const CommentList = (props) => {
             <h5 className='comments__title' onClick={() => setShowing(!showAll)}>{title}</h5>
             <div className='comments__box' style={{padding: showAll ? "0" : "0"}}>
                 { showAll && commentList.map(comment => {
-                    return <p className='comments__row'>{comment}</p>
+                    return <p className='comments__row' key={comment.id}>{comment.body}</p>
                 })}
             </div>
         </div>

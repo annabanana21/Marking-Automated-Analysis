@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {RepoContext} from '../../store/RepoContext';
 import Profile from '../Profile/Profile';
+import TicketView from '../TicketView/TicketView';
 import UserView from '../UserView/UserView';
 
 import './Split.scss'
@@ -21,7 +22,7 @@ const Split = (props) => {
                 current && <UserView />
             }
             {
-                !current && <h4>Ticket Space</h4>
+                !current && <TicketView />
             }
             </div>
             

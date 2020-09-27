@@ -1,0 +1,28 @@
+@import '../../styles/fonts.scss';
+
+.ticket {
+    padding: 1rem;
+    border-left: 5px solid #165CFF;
+    display: flex;
+    align-items: center;
+    
+
+    &--alt {
+        @extend .ticket;
+        border-color: #EBEBEC;
+        opacity: 65%;
+    }
+
+    &__image {
+        height: 3rem;
+        margin-right: 1rem;
+       
+    }
+
+    &__desc {
+        font-family: 'Roboto';
+        font-weight: 800;
+        color: #165CFF;
+        margin-bottom: 0.5rem;
+    }
+}

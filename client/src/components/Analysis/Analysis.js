@@ -12,7 +12,7 @@ const Analysis = () => {
     const { repoState, repoDispatch} = useContext(RepoContext);
     const [collabs, setCollabs] = useState(null);
     
-    console.log(state)
+    console.log(repoState)
 
     useEffect(() => {
 
@@ -37,7 +37,7 @@ const Analysis = () => {
             // })
             repoDispatch({
                 type: "ANALYSIS",
-                payload: { analysis: repoAnalysis({pulls: res[0].data, commits: repoState.commits, tickets: res[1].data.issues})}
+                payload: { analysis: repoAnalysis({pulls: res[0].data, commits: repoState.commits, tickets: res[1].data})}
               })
               setCollabs(true);
         })
