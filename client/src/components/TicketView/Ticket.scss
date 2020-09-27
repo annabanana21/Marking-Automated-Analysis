@@ -25,4 +25,16 @@
         color: #165CFF;
         margin-bottom: 0.5rem;
     }
+
+    &__repo {
+        margin-left: 1rem;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+    }
+    &__icon {
+        height: 2rem;
+        margin-right: 1rem;
+        opacity: 80%;
+    }
 }

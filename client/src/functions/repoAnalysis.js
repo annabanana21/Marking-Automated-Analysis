@@ -58,15 +58,16 @@ function repoAnalysis(repoState) {
         //Adding ticket statistics
         repoState.tickets.forEach(ticket => {
             let ticketNumber = Number(ticket.key.substring(ticket.key.length-2, ticket.key.length));
-            ticketList.push({...ticket, ticketNumber})
+            let associated = findAssociated(ticketNumber, repoState.pulls)
+            ticketList.push({...ticket, ticketNumber, associated})
             if (ticket.user) {
-                ticket.pulls = findAssociated(ticket, repoState.pulls)
+                ticket.pulls = associated
                 addToMapArray(workers, ticket.user, "tickets", ticket)
             }
         })
 
 
-        return [combineNames(workers), ticketList];
+        return [combineNames(workers), ticketList.reverse()];
 }
 
 function addToMap(workers, user, stat) {
@@ -122,24 +123,9 @@ const combineNames = (workers) => {
     return new Map(workersArray)
 }
 
-const findAssociated = (ticket, pulls) => {
-    let count = 0;
-    let associated = []
-    while (count < pulls.length) {
-        if (pulls[count].pull.title.includes(ticket.id)) {
-            const {body, title, state, html_url} = pulls[count].pull
-            associated.push({
-                body: body,
-                title: title,
-                state: state,
-                html_url: html_url,
-            })
-        }
+const findAssociated = (ticketId, pulls) => {
 
-        count++
-    }
-
-    return associated
+    return pulls.filter(pull => pull.pull.title.includes(ticketId))
 }
 
 const similarCheck = (name1, name2) => {

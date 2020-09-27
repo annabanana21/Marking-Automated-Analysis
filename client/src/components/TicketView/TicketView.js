@@ -7,9 +7,6 @@ const TicketView = (props) => {
     const { repoState} = useContext(RepoContext);
     const [selected, select] = useState(0);
 
-    useEffect(() => {
-        console.log(selected)
-    }, [selected])
     
 
     return (
