@@ -38,7 +38,6 @@ router.post("/analysis", async (req, res) => {
     //   owner: "octokit",
     //   repo: "rest.js",
     // })
-    console.log("fuck")
 
     let pulls = await octokit.paginate(`GET /repos/${owner}/${repoName}/pulls?state=all`, {
       owner: "octokit",
@@ -111,8 +110,6 @@ router.post("/board/:boardName", async (req, res) => {
       board.data.issues.map( async issue => {
 
         const {assignee, summary, status} = issue.fields;
-
-        console.log(issue.fields.assignee)
 
         let comments = await axios.get(`https://api.atlassian.com/ex/jira/${clientId}/rest/api/3/issue/${issue.id}/comment` , { headers: {
           'Authorization': `Bearer ${access_token}`

@@ -70,8 +70,10 @@ function repoAnalysis(repoState) {
             }
         })
 
+        let updated = combineNames(workers);
 
-        return [combineNames(workers), ticketList.reverse()];
+
+        return [markSetter(updated), ticketList.reverse()];
 }
 
 function addToMap(workers, user, stat) {
