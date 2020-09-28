@@ -1,9 +1,10 @@
-import axios from 'axios';
+import markSetter from '../functions/markSetter';
 
 function repoAnalysis(repoState) {
 
     // Object will hold the names and related data to each collaborator
     let workers = new Map();
+    // Ticket list including all Jira tickets with relevant pull request links
     let ticketList = [];
         //Adding commit statistics
         repoState.commits.forEach(commit => {
@@ -14,8 +15,6 @@ function repoAnalysis(repoState) {
                 
             } 
         })
-
-        console.log(repoState.pulls)
 
         //Adding pull request statistics
         repoState.pulls.forEach(pull => {
@@ -29,6 +28,7 @@ function repoAnalysis(repoState) {
                 html_url: html_url,
             }
 
+            // If associated user
             if (user) {
                 let userName = user.login
                 addToMapArray(workers, userName, "pullRequests", pullBody)
@@ -37,6 +37,7 @@ function repoAnalysis(repoState) {
                 }
             }
 
+            // If the pull request has general comments add these to the breakdown
             if (pull.comments) {
                 pull.comments.forEach(comment => {
                     let userName = comment.user.login;
@@ -45,6 +46,7 @@ function repoAnalysis(repoState) {
                 })
             }
 
+            // If the pull request has review comments add these to the breakdown
             if (pull.reviewComments) {
                 pull.reviewComments.forEach(comment => {
                     let userName = comment.user.login;
@@ -57,9 +59,11 @@ function repoAnalysis(repoState) {
 
         //Adding ticket statistics
         repoState.tickets.forEach(ticket => {
+            // Number associated with pull requests (last two digits of ticket key)
             let ticketNumber = Number(ticket.key.substring(ticket.key.length-2, ticket.key.length));
             let associated = findAssociated(ticketNumber, repoState.pulls)
             ticketList.push({...ticket, ticketNumber, associated})
+            // If the ticket had an assignee, add it to the breakdown
             if (ticket.user) {
                 ticket.pulls = associated
                 addToMapArray(workers, ticket.user, "tickets", ticket)
@@ -95,6 +99,9 @@ function addToMapArray(workers, user, stat, body) {
 }
 
 const combineNames = (workers) => {
+    // Combine names searches for similarities between two strings
+    // If three consecutive letters match three in the other string combine statistics
+    // Obvious flaws, what if two people are named Sam?
     let count = 0;
     let workersArray = [...workers]
     while (count < workersArray.length) {
@@ -124,7 +131,6 @@ const combineNames = (workers) => {
 }
 
 const findAssociated = (ticketId, pulls) => {
-
     return pulls.filter(pull => pull.pull.title.includes(ticketId))
 }
 
@@ -141,7 +147,6 @@ const similarCheck = (name1, name2) => {
             end++
         }
     }
-
     return similar;
 }
 
