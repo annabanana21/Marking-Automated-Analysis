@@ -59,6 +59,11 @@ function repoAnalysis(repoState) {
 
         //Adding ticket statistics
         repoState.tickets.forEach(ticket => {
+            if (ticket.comments) {
+                ticket.comments.forEach(comment => {
+                    addToMapArray(workers, comment.author.displayName, "ticketComments", comment)
+                })
+            }
             // Number associated with pull requests (last two digits of ticket key)
             let ticketNumber = Number(ticket.key.substring(ticket.key.length-2, ticket.key.length));
             let associated = findAssociated(ticketNumber, repoState.pulls)
@@ -73,7 +78,7 @@ function repoAnalysis(repoState) {
         let updated = combineNames(workers);
 
 
-        return [markSetter(updated), ticketList.reverse()];
+        return [markSetter(updated, repoState.pulls, repoState.tickets), ticketList.reverse()];
 }
 
 function addToMap(workers, user, stat) {

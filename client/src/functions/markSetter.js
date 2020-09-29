@@ -10,8 +10,6 @@ function markSetter(userMap, pulls, tickets) {
 
     let amountWithTickets = ticketers(userMap)
 
-    console.log(amountWithTickets)
-
     for (let [key, value] of userMap) {
 
         //Create a stats value representing their overall score
@@ -19,9 +17,31 @@ function markSetter(userMap, pulls, tickets) {
 
         if (value.pullRequests && value.tickets) {
             //Check if descriptive and grouped pulls to tickets
-            console.log( markGetter(value.pullRequests.length, value.tickets.length))
-            
+            rank += markGetter(value.pullRequests.length, value.tickets.length);
         }
+
+        if (value.tickets) {
+            let amount = (tickets.length-4)/amountWithTickets;
+            rank+= markGetter(value.tickets.length, amount)
+        }
+
+        if (value.comments || value.reviewComments) {
+            let comments;
+            let review;
+            value.comments ? comments = value.comments.length : comments = 0;
+            value.reviewComments ? review = value.reviewComments.length : review = 0;
+            if (value.pullRequests) {
+                rank+= percentGetter(comments+review, pulls.length-value.pullRequests.length)
+            }
+        }
+
+        if (value.ticketComments) {
+            let personPulls;
+            value.pullRequests ? personPulls = value.pullRequests.length : personPulls = 0;
+            rank+= percentGetter(value.ticketComments.length, tickets.length-4-personPulls)
+        }
+
+        console.log(key, " ", rank)
         
 
     }
@@ -39,19 +59,29 @@ function ticketers(map) {
     return count;
 }
 
-function markGetter(amount, compare) {
+function percentGetter(amount, compare, pointList) {
     let points = 0;
-    if(amount >= compare) {
-        console.log("Exemplary")
+    if(amount >= compare*0.75) {
         points = 3;
-    } else if (amount === compare-1) {
-        console.log("Very Good")
+    } else if (amount === compare*0.60) {
         points = 2;
-    } else if (amount >= compare-3) {
-        console.log("Satisfactory")
+    } else if (amount >= compare*0.25) {
         points = 1;
     } else if (amount > 0) {
-        console.log("Limited")
+        points = 0.5
+    } 
+    return points;
+}
+
+function markGetter(amount, compare, pointList) {
+    let points = 0;
+    if(amount >= compare) {
+        points = 3;
+    } else if (amount === compare-1) {
+        points = 2;
+    } else if (amount >= compare-3) {
+        points = 1;
+    } else if (amount > 0) {
         points = 0.5
     } 
     return points;
