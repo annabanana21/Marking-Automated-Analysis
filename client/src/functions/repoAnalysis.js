@@ -146,7 +146,7 @@ const similarCheck = (name1, name2) => {
     let start = 0;
     let end = 3;
     while (end <= name1.length) {
-        if (name2.includes(name1.substring(start, end))) {
+        if (name2.toLowerCase().includes(name1.toLowerCase().substring(start, end))) {
             similar = true
             break;
         } else {

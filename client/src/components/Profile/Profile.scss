@@ -26,31 +26,41 @@
   }
 .user {
     border-radius: 5px;
-    box-shadow: 0 0.5px 5px 0 #e1e1e1;
+    box-shadow: 0 1px 0 rgba(9,30,66,.25);
+    position: relative;
     height: fit-content;
-    width: 100%;
+    width: 40vw;
+    max-width: 900px;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-    background-color: $mainLight;
+    margin-bottom: 2rem;
+    background-color: #fff;
+
+    &:nth-child(odd) {
+        margin-right: 1rem;
+    }
 
     &__hold {
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
         height: 100%;
         padding: 1rem;
+        padding-top: 75px;
     }
 
     &__box {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         padding: 1rem;
         width: 100%;
         position: relative;
     }
 
     &__short {
-        background-color: $mainDark;
+        //background-color: $mainDark;
+        width: 20%;
         padding: 0.5rem;
         border-radius: 3px;
         margin-right: 1rem;
@@ -63,13 +73,16 @@
 
     &__pic {
         height: 80px;
+        width: 80px;
         border-radius: 5px;
+        position: absolute;
+        top: -1rem;
     }
 
     &__data {
         display: flex;
-        position: absolute;
-        left: 30%;
+        justify-content: center;
+        
     }
 
     &__name {
@@ -78,7 +91,6 @@
         font-weight: 600;
         font-size: 1.3rem;
         margin: 0;
-        margin-right: 1rem;
     }
 
     &__number {
@@ -92,7 +104,8 @@
     &__sub {
         font-family: 'Roboto';
         font-weight: 400;
-        color: white;
+        color: $altColor;
+        margin-top: 7px;
     }
 
     &__more {
@@ -111,5 +124,10 @@
             @extend .user__show;
             color: $text;
         }
+    }
+
+    &__circle {
+        height: 5rem;
+        width: fit-content;
     }
 }

@@ -52,7 +52,7 @@ const UserView = (props) => {
     return (
         <DragDropContext>
         <section className='split'>
-            <button onClick={() => setMerging(!isMerging)}>Merge Profiles</button>
+            {/*<button onClick={() => setMerging(!isMerging)}>Merge Profiles</button>*/}
             {isMerging ? mergeList : regular}
         </section>
         </DragDropContext>
