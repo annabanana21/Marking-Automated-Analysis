@@ -11,11 +11,12 @@ require('dotenv').config()
 
 Waiting on approval to use Atlassian 3Lo authentication as this process is currently private */
 
+
 router.get('/auth', async (req, res) => {
     
     let bound = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
     
-    res.redirect(`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${process.env.REACT_APP_JIRA_CLIENT}&scope=read%3Ajira-user%20read%3Ajira-work%20manage%3Ajira-project&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fjira&state=${bound}&response_type=code&prompt=consent`)
+    res.redirect(`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${process.env.REACT_APP_JIRA_CLIENT}&scope=read%3Ajira-user%20read%3Ajira-work%20manage%3Ajira-projectredirect_uri=https%3A%2F%2Fauto-mark.netlify.app%2Fjira&state=${bound}&response_type=code&prompt=consent`)
    
 })
 
