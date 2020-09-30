@@ -4,16 +4,18 @@ import './CommentList.scss';
 
 const CommentList = (props) => {
     const { repoState } = useContext(RepoContext);
-    const [showAll, setShowing] = useState(false)
     const {commentList, title} = props;
 
 
 
     return (
         <div className='comments' onClick={(e) => e.stopPropagation()}>
-            <h5 className='comments__title' onClick={() => setShowing(!showAll)}>{title}</h5>
-            <div className='comments__box' style={{padding: showAll ? "0" : "0"}}>
-                { showAll && commentList.map(comment => {
+        <div className='comments__top'>
+            <h5 className='comments__title'>{title}</h5>
+            <p className='comments__title'>{commentList.length}</p>
+        </div>
+            <div className='comments__box' >
+                { commentList.map(comment => {
                     return <p className='comments__row' key={comment.id}>{comment.body}</p>
                 })}
             </div>

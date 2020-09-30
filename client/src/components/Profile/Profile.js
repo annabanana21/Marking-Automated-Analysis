@@ -3,7 +3,7 @@ import {RepoContext} from '../../store/RepoContext';
 import './Profile.scss'
 import pic from '../../assets/programming.svg';
 import CommentList from '../CommentList/CommentList';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import rating from '../../functions/rating';
 import 'react-circular-progressbar/dist/styles.css';
 import Circle from './Circle';
 
@@ -31,15 +31,16 @@ const Profile = (props) => {
                     <h4 className='user__name'>{name}</h4>
                     <div className='user__box'>
                         <div className='user__data'>
-                            <Circle userStat={userCommits} userPercent={userPercent}/>
-                            <Circle userStat={userPulls} userPercent={pullPercent}/>
-                            <Circle userStat={userTickets} userPercent={ticketPercent}/>
+                            <Circle userStat={userCommits} userPercent={userPercent} title='commits'/>
+                            <Circle userStat={userPulls} userPercent={pullPercent} title='pulls'/>
+                            <Circle userStat={userTickets} userPercent={ticketPercent} title='tickets'/>
                         </div>
                         </div>
                         {expand ? <p className='user__show--clicked'>Show Less ^ </p> : <p className='user__show'>Show More v </p>}
                 </div>
                 {expand && (
                     <div className='user__more'>
+                        <h5 className='user__sug'>Suggested: <span className='user__sug--alt'>{rating(collaborator.ranking)}</span></h5>
                     { collaborator.comments && <CommentList title="GitHub Comments" commentList={collaborator.comments}/> }
                     { collaborator.reviewComments && <CommentList title="GitHub Review Comments" commentList={collaborator.reviewComments}/> }
                     </div>

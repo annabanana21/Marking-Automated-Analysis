@@ -2,31 +2,54 @@
 
 
 .comments {
-    width: 50%;
-    margin-bottom: 1rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    background-color: $altColor;
+    border-radius: 3px;
+    padding-bottom: 1rem;
+
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.7rem 1rem;
+    }
+
     &__title {
         color: white;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 1rem;
-        background-color: $text;
-        padding: 1rem;
+        font-family: 'Roboto';
+        font-weight: 600;
+        font-size: 1.1rem;
         margin: 0;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
     }
 
     &__box {
         max-height: 150px;
-        overflow: auto;
         padding: 0.4rem 1rem;
-        border: 0.5px solid $text;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            background-color: #D7CEFC;
+            width: 5px;
+            border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $altColor;
+        }
     }
 
     &__row {
+        font-family: 'Roboto';
+        font-weight: 600;
+        border-radius: 3px;
+        box-shadow: 0 1px 0 rgba(9,30,66,.25);
         box-sizing: border-box;
+        font-size: 13px;
         padding: 0.5rem 1rem;
         background-color: #FAFAFA;
         margin: 0;
         border: 0.2px solid lightgray;
+        margin-bottom: 0.5rem;
+        overflow-wrap: break-word;
     }
 }
