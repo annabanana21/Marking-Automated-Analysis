@@ -29,7 +29,7 @@ const JiraAuth = () => {
     
             console.log(actualCode)
           // Use code parameter and other parameters to make POST request to proxy_server
-          axios.post("http://localhost:8080/jira/auth", {code: actualCode[0]})
+          axios.post(`${process.env.REACT_APP_BACKEND}jira/auth`, {code: actualCode[0]})
             .then(data => {
               console.log(data)
               dispatch({
@@ -69,7 +69,7 @@ const JiraAuth = () => {
                     }
                     <a
                       className="login-link"
-                      href={`http://localhost:8080/jira/auth`}
+                      href={`${process.env.REACT_APP_BACKEND}jira/auth`}
                       onClick={() => {
                         setData({ ...data, errorMessage: "" });
                       }}
