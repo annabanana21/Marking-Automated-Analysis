@@ -16,7 +16,7 @@ router.get('/auth', async (req, res) => {
     
     let bound = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
     
-    res.redirect(`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${process.env.REACT_APP_JIRA_CLIENT}&scope=read%3Ajira-user%20read%3Ajira-work%20manage%3Ajira-project&redirect_uri=${process.env.REACT_APP_ALT_URI}&state=${bound}&response_type=code&prompt=consent`)
+    res.redirect(`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${process.env.REACT_APP_JIRA_CLIENT}&scope=read%3Ajira-user%20read%3Ajira-work%20manage%3Ajira-project&redirect_uri=${process.env.}&state=${bound}&response_type=code&prompt=consent`)
    
 })
 
