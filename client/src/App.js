@@ -8,6 +8,7 @@ import RepoProvider from './store/RepoContext';
 import RepoPage from './pages/RepoPage/RepoPage';
 import Analysis from './components/Analysis/Analysis';
 import JiraAuth from './components/JiraAuth/JiraAuth';
+import SignUp from './components/SignUp/SignUp';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path={"/repos/:repoId/analysis"} component={Analysis}/>
           <Route path="/repos/:repoId" component={RepoPage}/>
           <Route path="/repos" component={Finder}/>
+          <Route path='/signup' component={SignUp}/>
           <Route path="/" component={Login}/>
         </Switch>
       </Router>

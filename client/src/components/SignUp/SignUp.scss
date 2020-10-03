@@ -1,0 +1,54 @@
+@import '../../styles/fonts.scss';
+
+.sign {
+    height: 100vh;
+    width: 100vw;
+    background-color: $firstGrey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__block {
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.07);
+        border-radius: 3px;
+        height: 70%;
+        width: 500px;
+        padding: 0 2rem;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__prompt {
+        font-family: 'Noto Serif', serif;
+        font-size: 2rem;
+    }
+
+    &__desc {
+        font-family: 'Roboto';
+        font-weight: 400;
+        text-align: center;
+    }
+
+    &__name {
+        box-sizing: border-box;
+        height: 3rem;
+        width: 100%;
+        border: 1px solid #ddd;
+        font-family: 'Roboto';
+        font-weight: 400;
+        margin-bottom: 1rem;
+    }
+
+    &__connect {
+        background-color: black;
+        width: fit-content;
+        padding: 1rem ;
+        border-radius: 3px;
+        color: white;
+        font-family: 'Roboto';
+        font-weight: 400;
+    }
+}

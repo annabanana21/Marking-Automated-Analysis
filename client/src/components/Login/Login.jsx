@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import {AccountContext} from '../../store/AccountContext';
 import './Login.scss';
 import axios from "axios";
@@ -62,7 +62,11 @@ const Login = () => {
     
       return (
           <section className="log">
-            <h2 className='log__logo'>automark</h2>
+            <div className='log__bar'>
+             <h2 className='log__logo'>automark</h2>
+             <Link to='/signup'><div className='log__in'>Sign Up</div></Link>
+            </div>
+            <div className='log__box'>
             <div className='log__blurb'>
               <h1 className='log__title'>Let automation do the work for you.</h1>
               <p>With automark analyze student repositories, efficiently install workspaces, and run user-driven tests.</p>
@@ -85,6 +89,7 @@ const Login = () => {
               </div>
             </div>
             <img className='log__img' src={poster}/>
+            </div>
           </section>
       );
 }

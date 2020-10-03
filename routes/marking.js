@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const { Octokit } = require("@octokit/rest");
 const axios = require('axios');
+var fs = require('fs');
+
 
 
 
@@ -87,6 +89,10 @@ router.post("/boards", async (req, res) => {
         'Authorization': `Bearer ${access_token}`
       }
     })
+    // fs.writeFile('boardDataAnna.txt', JSON.stringify(boards.data), function (err) {
+    //   if (err) throw err;
+    //   console.log('Saved!');
+    // });
     res.status(201).send(boards.data)
   } catch (err) {
     console.log(err)
@@ -127,6 +133,11 @@ router.post("/board/:boardName", async (req, res) => {
         }
       })
     )
+
+    // fs.writeFile('fullDataAnna.txt', JSON.stringify(fullBoardData), function (err) {
+    //   if (err) throw err;
+    //   console.log('Saved!');
+    // });
 
     res.status(201).send(fullBoardData)
   } catch (err) {

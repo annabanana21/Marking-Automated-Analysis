@@ -4,6 +4,8 @@ const router = express.Router();
 const axios = require('axios');
 var crypto = require('crypto');
 var uuid = require('node-uuid');
+var fs = require('fs');
+
 require('dotenv').config()
 
 
@@ -16,7 +18,7 @@ router.get('/auth', async (req, res) => {
     
     let bound = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
     
-    res.redirect(`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=${process.env.REACT_APP_JIRA_CLIENT}&scope=read%3Ajira-user%20read%3Ajira-work%20manage%3Ajira-project&redirect_uri=${process.env.}&state=${bound}&response_type=code&prompt=consent`)
+    res.redirect(`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=BwcommlWMhNokzLVEZ1jXfy5Y0CwAkkY&scope=read%3Ajira-user%20read%3Ajira-work%20manage%3Ajira-project&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fjira&state=${bound}&response_type=code&prompt=consent`)
    
 })
 
@@ -63,6 +65,10 @@ router.post("/boards", (req, res) => {
         }
     }).then(results => {
         res.send(results.data)
+        // fs.writeFile('boards.txt', JSON.stringify(results.data), function (err) {
+        //     if (err) throw err;
+        //     console.log('Saved!');
+        // });
     }).catch(err => {
         console.log(err)
         res.status(400).send(err)
