@@ -24,6 +24,7 @@ function App() {
           <Route path="/repos/:repoId" component={RepoPage}/>
           <Route path="/repos" component={Finder}/>
           <Route path='/signup' component={SignUp}/>
+          <Route path='/login' component={SignUp}/>
           <Route path="/" component={Login}/>
         </Switch>
       </Router>
