@@ -1,3 +1,5 @@
+@import '../../styles/reset.scss';
+
 * {
     margin: 0;
 }
@@ -5,14 +7,49 @@
 .start {
     height: 100vh;
     width: 100vw;
-    background-color: #F4F7FA;
+    background-color: $culture;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    padding: 3rem 200px;
+
+    &__glass {
+        position: absolute;
+    }
+
+    &__display {
+        padding: 0 1.5rem;
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        height: 100%;
+        align-self: flex-start;
+        box-sizing: border-box;
+    }
+
+    &__title {
+        color: $accent;
+        font-family: 'Montserrat';
+        font-weight: 800;
+        font-size: 5rem;
+    }
+
+    &__user {
+        color: $accent;
+        font-family: 'Montserrat';
+        font-weight: 800;
+        font-size: 2.5rem;
+        align-self: flex-end;
+        margin-top: -1rem;
+        margin-bottom: 2rem;
+    }
+
+    &__form {
+        width: 100%;
+        position: relative;
+        height: fit-content;
+    }
 
     &__box {
-        padding: 1rem;
+        padding: 1rem 2rem;
         display: flex;
         position: relative;
         flex-direction: column;
@@ -20,11 +57,34 @@
         align-items: center;
         //border: 1px solid #523ee8;
         background-color: white;
-        border-radius: 2px;
+        border-radius: 10px;
         //0 2px 6px 0 rgba(0,0,0,.2)
-        box-shadow: 0 2px 6px 0 rgba(0,0,0,.2); 
-        width: fit-content;
+        //box-shadow: 0 2px 6px 0 rgba(0,0,0,.2); 
+        width: 100%;
         height: fit-content;
+    }
+
+    &__search {
+        width: 100%;
+        height: 3rem;
+        border-radius: 4px;
+        border: 1px solid #a6a6a6;
+        padding: 0 1.5rem;
+        @include input-field;
+
+    }
+
+    &__icon {
+        position: absolute;
+        left: $spacing-s;
+        color: $carBlue;
+        top: 50%;
+    }
+
+    &__sub {
+        font-size: 1.5rem;
+        font-family: 'Roboto';
+        font-weight: 800;
     }
 
     &__button {

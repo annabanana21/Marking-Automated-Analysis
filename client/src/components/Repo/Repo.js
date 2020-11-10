@@ -7,8 +7,8 @@ const Repo = (props) => {
     let [colored, changeColor] = useState(false)
 
     const focus = (e, item) => {
-        changeColor(!colored)
-        props.repoFocus(e, item)
+        //changeColor(!colored)
+        props.repoFocus(item)
     }
 
     const {date, item} = props;

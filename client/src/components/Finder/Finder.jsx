@@ -6,6 +6,9 @@ import {AccountContext} from '../../store/AccountContext';
 import {RepoContext} from '../../store/RepoContext';
 import 'semantic-ui-css/semantic.min.css'
 import Repo from '../Repo/Repo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import Collab from '../Collab/Collab';
 
 const Finder = (props) => {
     const { state } = useContext(AccountContext);
@@ -13,31 +16,34 @@ const Finder = (props) => {
     const [multiSelect, isSelected] = useState(false);
     const [repoSelected, selectRepos] = useState([]);
 
-    const [expand, setExpand] = useState(false);
+    const [featured, setFeatured] = useState(null);
 
-    const repoFocus = (e,repo) => {
-        if (multiSelect) {
-            selectRepos([...repoSelected, repo])
-        } else {
-            const { history: { push } } = props;
-            e.preventDefault();
-            //Updates repo context to include focused repository
-            repoDispatch({
-                type: "UPDATE",
-                payload: { repo: repo }
-            });
-            //Re-directs to url specified by repo ID
-            push(props.match.path+"/"+repo.id)
-        }
-    }
-
-
+    // const repoFocus = (e,repo) => {
+    //     if (multiSelect) {
+    //         selectRepos([...repoSelected, repo])
+    //     } else {
+    //         const { history: { push } } = props;
+    //         e.preventDefault();
+    //         //Updates repo context to include focused repository
+    //         repoDispatch({
+    //             type: "UPDATE",
+    //             payload: { repo: repo }
+    //         });
+    //         //Re-directs to url specified by repo ID
+    //         push(props.match.path+"/"+repo.id)
+    //     }
+    // }
+    
+    const repoFocus = (repoInfo) => {
+        setFeatured(repoInfo);
+        repoDispatch({
+            type: "UPDATE",
+            payload: { repo: repoInfo }
+        });
+    };
 
     const formatRepos = () => {
-        let shortened = repoState.repoList
-        if (!expand) {
-            shortened = repoState.repoList.slice(0,3);
-        }
+        const shortened = repoState.repoList.slice(0,4);
        return shortened.map(item => {
            let date = new Date(item.pushed_at).toDateString();
            return (
@@ -60,39 +66,26 @@ const Finder = (props) => {
         })
     }, [])
 
-    useEffect(() => {
-        let box = document.querySelector(".start__expand")
-        if(expand) {
-            box.style.height = "80vh"
-            box.style.overflow = "scroll";
-        } else {
-            box.style.height = "fit-content";
-            box.style.overflow = "auto";
-        }
-    }, [expand])
-
-
-    let button = <div className='start__button--alt' onClick={() => isSelected(!multiSelect)}>Multi Select</div>
-    if (multiSelect) {
-        button = <div className='start__button' onClick={() => isSelected(!multiSelect)}>Multi Select</div>
-    }
-
-    let controlButton = <button onClick={() => {setExpand(true)}}>Show All</button>
-    if (expand) {
-        controlButton = <button onClick={() => {setExpand(false)}}>Show Less</button>
-    }
+    console.log(featured);
 
     return (
         <section className='start'>
-        <h2>Welcome {state.user.data.user.login}!</h2>
-        <div className="start__box">
-            <h4>Most Recent</h4>
-        
-            <div className="start__expand">
-            {repoState.repoList.length > 0 && formatRepos()}
+            <div className='start__display'>
+                <h2 className='start__title'>Welcome,</h2>
+                <h3 className='start__user'>{state.user.data.user.login}</h3>
+                <div className="start__box">
+                    <form className='start__form'>
+                        <FontAwesomeIcon icon={faSearch} className='search__glass' size='lg'/>
+                        <input className='start__search' name='search' placeholder='Search repo by name'/>
+                    </form>
+                    {repoState.repoList.length > 0 && formatRepos()}
+                </div>
             </div>
-            {controlButton}
-            </div>
+            
+            {featured && (
+                <Collab />
+            )}
+           
         </section>
     )
 }

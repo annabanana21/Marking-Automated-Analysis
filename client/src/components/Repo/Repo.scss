@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
+@import '../../styles/reset.scss';
+
+
 .repo {
     &__card {
         margin: 1em 0;
@@ -9,31 +12,33 @@
         display: flex;
         
         justify-content: center;
-        width: 400px;
+        width: 100%;
         height: fit-content;
         background: #fff;
         padding: 0;
         
         border-radius: 5px;
-        box-shadow: 0 0.5px 5px 0 #e1e1e1;
-        transition: box-shadow .1s ease,transform .1s ease;
+        //box-shadow: 0 0.5px 5px 0 #e1e1e1;
+        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.04), 0 2px 2px 0 rgba(0, 0, 0, 0.06);
+        //transition: box-shadow .1s ease,transform .1s ease;
 
        
 
         &:hover {
             cursor: pointer;
             background-color: #FAFAFA;
+            box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
         }
 
         &--alt {
             @extend .repo__card;
-            background-color: #523ee8;
+            background-color: $charcoal;
             color: white;
         }
     }
 
     &__owner {
-        color: #523EE8;
+        color: $charcoal;
         font-size: 0.8rem;
         font-family: 'Poppins', sans-serif;;
         margin: 0;
@@ -77,7 +82,8 @@
         position: absolute;
         bottom: 1rem;
         left: 1rem;
-        @extend .repo__owner
+        @extend .repo__owner;
+        color: $carBlue;
     }
 
     &__content {

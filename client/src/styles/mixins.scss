@@ -1,0 +1,41 @@
+@import './colors.scss';
+@import './fonts.scss';
+@import './spacing.scss';
+
+@mixin input-field {
+    &:focus {
+        outline: none;
+        border: 2px solid $carBlue;
+    }
+}
+
+@mixin centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+@mixin h3 {
+    color: $charcoal;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin:0;
+}
+
+@mixin h4 {
+    font-family: 'Montserrat';
+    font-weight: 800;
+    font-size: 3rem;
+    color: $accent;
+    margin:0;
+}
+
+@mixin button {
+    padding: $spacing-s $spacing-l;
+    background-color: $charcoal;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 4px;
+}

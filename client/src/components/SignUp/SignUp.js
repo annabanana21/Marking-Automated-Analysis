@@ -5,7 +5,6 @@ import people from '../../assets/icon2.svg';
 const SignUp = (props) => {
     const [sign, setSwitch] = useState(props.match.path === '/signup' ? true : false)
 
-    console.log(sign)
     return (
         <section className='sign'>
             <div className='sign__block'>

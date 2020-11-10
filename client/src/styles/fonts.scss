@@ -16,13 +16,20 @@
     font-weight: 800;
 }
 
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/Montserrat/Montserrat-Black.ttf');
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../assets/Montserrat/Montserrat-Bold.ttf');
+    font-weight: 600;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
 
-$mainDark: #0052CC;
-$mainLight: #DEEBFF;
-$text: #172B4D;
-$altColor: #7B40F2;
 
-$firstGrey: #F9F8F7;
 
 

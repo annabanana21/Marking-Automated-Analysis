@@ -5,6 +5,7 @@ import {RepoContext} from '../../store/RepoContext';
 import {AccountContext} from '../../store/AccountContext';
 import axios from 'axios';
 import dynamicTime from '../../functions/daysAgo';
+import ReactLoading from 'react-loading';
 
 const Collab = (props) => {
     const { repoState, repoDispatch} = useContext(RepoContext);
@@ -48,42 +49,37 @@ const Collab = (props) => {
               });
             console.log(resArray[2].data)
             setBoards(resArray[3].data)
-            setLoading(false)
+
+            setTimeout(() => {
+                setLoading(false)
+            }, 1000)
         })
     }, [])
 
     useEffect(()=> {
     }, [load, show, start])
 
-    if (load) {
-        return <div>Loading...</div>
-    }
 
     if (start) {
         return <Redirect to={props.path}/>
-
     }
 
     return (
         <section className="collab">
-            <div className='collab__cont'>
-                <div className='collab__square'>
-                    <div className="collab__box">
-                        <div className="collab__infograph">Total Commits:</div>
-                        <p className="collab__heading">{repoState.commits.length}</p>
-                    </div>
-                    <div className="collab__box">
-                        <div className="collab__infograph">Last Updated:</div>
-                        <p className="collab__heading">{dynamicTime(repoState.current.updated_at)[0]}</p>
-                        <p className="collab__heading--small">{dynamicTime(repoState.current.updated_at)[1]}</p>
-                    </div>
-                    <div className="collab__box"></div>
-                    <div className="collab__box"></div>
-                </div>
-                <div className="collab__active">
-                    <h5 className='collab__text'>GitHub Analysis</h5>
-                    <div className="collab__button" onClick={() => showModal(!show)}>START</div>
-                </div>
+            { load ? <ReactLoading type={"bubbles"} color={"#20A4F3"} height={100} width={200} /> : 
+            <>
+            <div className='collab__group'>
+                <h3 className="collab__heading">{repoState.commits.length}</h3>
+                <h4 className='collab__title'>Total Commits</h4>
+            </div>
+            <div className='collab__group'>
+                <h3 className="collab__heading">{dynamicTime(repoState.current.updated_at)[0]}</h3>
+                <h4 className="collab__title">{dynamicTime(repoState.current.updated_at)[1]}</h4>
+            </div>
+
+            <div className="collab__active">
+                <h5 className='collab__text'>GitHub Analysis</h5>
+                <div className="collab__button" onClick={() => showModal(!show)}>START</div>
             </div>
             {show && 
                 (<div>
@@ -95,6 +91,8 @@ const Collab = (props) => {
                         <button type='submit'>Configure Board</button>
                     </form>
                 </div>)}
+            </>
+            }
         </section>
     )
 }

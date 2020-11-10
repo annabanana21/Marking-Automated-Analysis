@@ -21,10 +21,8 @@ function App() {
         <Switch>
           <Route path='/jira' component={JiraAuth}/>
           <Route path={"/repos/:repoId/analysis"} component={Analysis}/>
-          <Route path="/repos/:repoId" component={RepoPage}/>
           <Route path="/repos" component={Finder}/>
-          <Route path='/signup' component={SignUp}/>
-          <Route path='/login' component={SignUp}/>
+          <Route path='/start' component={SignUp}/>
           <Route path="/" component={Login}/>
         </Switch>
       </Router>

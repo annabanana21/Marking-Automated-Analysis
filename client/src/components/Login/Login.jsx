@@ -64,7 +64,7 @@ const Login = () => {
           <section className="log">
             <div className='log__bar'>
              <h2 className='log__logo'>automark</h2>
-             <Link to='/signup'><div className='log__in'>Sign Up</div></Link>
+             <Link to='/start'><div className='log__in'>Sign Up</div></Link>
             </div>
             <div className='log__box'>
             <div className='log__blurb'>
