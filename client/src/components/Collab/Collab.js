@@ -22,11 +22,12 @@ const Collab = (props) => {
             type: "BOARD",
             payload: {boardId: event.target.boards.value}
         });
-        setStart(true)
+        setStart(true);
     }
 
 
     useEffect(()=> {
+        setLoading(true);
         axios.all(
             [
                 axios.post(`${process.env.REACT_APP_BACKEND}marking/commits`, {
@@ -52,16 +53,16 @@ const Collab = (props) => {
 
             setTimeout(() => {
                 setLoading(false)
-            }, 1000)
+            }, 500)
         })
-    }, [])
+    }, [repoState.current])
 
     useEffect(()=> {
     }, [load, show, start])
 
 
     if (start) {
-        return <Redirect to={props.path}/>
+        return <Redirect to={`/repos/${repoState.current.id}/analysis`}/>
     }
 
     return (
@@ -82,13 +83,13 @@ const Collab = (props) => {
                 <div className="collab__button" onClick={() => showModal(!show)}>START</div>
             </div>
             {show && 
-                (<div>
-                    <p>Add a Jira Board</p>
-                    <form onSubmit={addBoard}>
-                        <select name="boards" id="boards">
+                (<div className='collab__form'>
+                    <p className='collab__board'>Add a Jira Board</p>
+                    <form onSubmit={addBoard} className='collab__cont'>
+                        <select name="boards" id="boards" className='collab__select'>
                             {boards.map(board => <option value={board.name}>{board.name}</option>)}
                         </select>
-                        <button type='submit'>Configure Board</button>
+                        <button type='submit' className='collab__submit'>Configure</button>
                     </form>
                 </div>)}
             </>

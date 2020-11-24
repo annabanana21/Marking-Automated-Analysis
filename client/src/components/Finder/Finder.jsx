@@ -13,8 +13,9 @@ import Collab from '../Collab/Collab';
 const Finder = (props) => {
     const { state } = useContext(AccountContext);
     const { repoState, repoDispatch} = useContext(RepoContext);
-    const [multiSelect, isSelected] = useState(false);
-    const [repoSelected, selectRepos] = useState([]);
+    // const [multiSelect, isSelected] = useState(false);
+    // const [repoSelected, selectRepos] = useState([]);
+    const [ displayed, setDisplay ] = useState([]);
 
     const [featured, setFeatured] = useState(null);
 
@@ -22,15 +23,12 @@ const Finder = (props) => {
     //     if (multiSelect) {
     //         selectRepos([...repoSelected, repo])
     //     } else {
-    //         const { history: { push } } = props;
     //         e.preventDefault();
     //         //Updates repo context to include focused repository
     //         repoDispatch({
     //             type: "UPDATE",
     //             payload: { repo: repo }
     //         });
-    //         //Re-directs to url specified by repo ID
-    //         push(props.match.path+"/"+repo.id)
     //     }
     // }
     
@@ -42,19 +40,29 @@ const Finder = (props) => {
         });
     };
 
-    const formatRepos = () => {
-        const shortened = repoState.repoList.slice(0,4);
-       return shortened.map(item => {
-           let date = new Date(item.pushed_at).toDateString();
-           return (
-                <Repo key={item.id} repoFocus={repoFocus} item={item} date={date}/>
-            )
-       })
+    const formatRepos = (val) => {
+        let searched;
+        if (val) {
+            searched = repoState.repoList.filter(item => item.name && item.name.toLowerCase().includes(val.toLowerCase()));
+            if (searched.length > 3) {
+                searched = searched.slice(0, 4);
+            } 
+        } else {
+            searched = repoState.repoList.slice(0,4);
+        }
+        setDisplay(searched.map(item => {
+            let date = new Date(item.pushed_at).toDateString();
+            return (
+                    <Repo key={item.id} repoFocus={repoFocus} item={item} date={date}/>
+                )
+        }));
     }
+
+    console.log(repoState.repoList);
 
     useEffect(() => {
         const {access_token, user} = state.user.data;
-        
+        formatRepos(null);
         axios.post(`${process.env.REACT_APP_BACKEND}marking/repos`, {
             key: access_token, 
             owner: user.login
@@ -66,7 +74,12 @@ const Finder = (props) => {
         })
     }, [])
 
-    console.log(featured);
+    const searchRepo = (event) => {
+        event.preventDefault();
+        const searchResult = event.target.search && event.target.search.value;
+        formatRepos(searchResult);
+    }
+
 
     return (
         <section className='start'>
@@ -74,11 +87,11 @@ const Finder = (props) => {
                 <h2 className='start__title'>Welcome,</h2>
                 <h3 className='start__user'>{state.user.data.user.login}</h3>
                 <div className="start__box">
-                    <form className='start__form'>
-                        <FontAwesomeIcon icon={faSearch} className='search__glass' size='lg'/>
+                    <form className='start__form' onSubmit={searchRepo}>
+                        <FontAwesomeIcon icon={faSearch} className='start__glass' size='lg'/>
                         <input className='start__search' name='search' placeholder='Search repo by name'/>
                     </form>
-                    {repoState.repoList.length > 0 && formatRepos()}
+                    {repoState.repoList.length > 0 && displayed}
                 </div>
             </div>
             
