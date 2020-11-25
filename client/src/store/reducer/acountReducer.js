@@ -30,11 +30,21 @@ export const initialState = {
         }
       }
       case "LOGOUT": {
-        localStorage.clear()
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("user")
         return {
           ...state,
           isLoggedIn: false,
           user: null
+        };
+      }
+      case "LOGOUTJIRA": {
+        localStorage.removeItem("isLoggedInJira");
+        localStorage.removeItem("jiraData");
+        return {
+          ...state,
+          isLoggedinJira: false,
+          jiraData: null
         };
       }
       default:

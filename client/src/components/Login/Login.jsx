@@ -14,6 +14,7 @@ const Login = () => {
     console.log(state)
     const { client_id, redirect_uri } = state;
 
+
     useEffect(() => {
         // After requesting Github access, Github redirects back to your app with a code parameter
         const url = window.location.href;

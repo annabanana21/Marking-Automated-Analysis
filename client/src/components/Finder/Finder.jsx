@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {withRouter} from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import './Finder.scss';
 import axios from 'axios';
 import {AccountContext} from '../../store/AccountContext';
@@ -9,6 +9,7 @@ import Repo from '../Repo/Repo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Collab from '../Collab/Collab';
+import useLogger from '../../functions/isLogged';
 
 const Finder = (props) => {
     const { state } = useContext(AccountContext);
@@ -16,7 +17,7 @@ const Finder = (props) => {
     // const [multiSelect, isSelected] = useState(false);
     // const [repoSelected, selectRepos] = useState([]);
     const [ displayed, setDisplay ] = useState([]);
-
+    const logger = useLogger();
     const [featured, setFeatured] = useState(null);
 
     // const repoFocus = (e,repo) => {
@@ -61,17 +62,19 @@ const Finder = (props) => {
     console.log(repoState.repoList);
 
     useEffect(() => {
-        const {access_token, user} = state.user.data;
-        formatRepos(null);
-        axios.post(`${process.env.REACT_APP_BACKEND}marking/repos`, {
-            key: access_token, 
-            owner: user.login
-        }).then(results => {
-            repoDispatch({
-                type: "CREATE",
-                payload: { repoList: results.data.sort((a,b) => (new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime() < 0) ? 1 : -1)}
-              });
-        })
+        if (state.user) {
+            const {access_token, user} = state.user.data;
+            formatRepos(null);
+            axios.post(`${process.env.REACT_APP_BACKEND}marking/repos`, {
+                key: access_token, 
+                owner: user.login
+            }).then(results => {
+                repoDispatch({
+                    type: "CREATE",
+                    payload: { repoList: results.data.sort((a,b) => (new Date(a.pushed_at).getTime() - new Date(b.pushed_at).getTime() < 0) ? 1 : -1)}
+                  });
+            })
+        }
     }, [])
 
     const searchRepo = (event) => {
@@ -80,27 +83,32 @@ const Finder = (props) => {
         formatRepos(searchResult);
     }
 
-
-    return (
-        <section className='start'>
-            <div className='start__display'>
-                <h2 className='start__title'>Welcome,</h2>
-                <h3 className='start__user'>{state.user.data.user.login}</h3>
-                <div className="start__box">
-                    <form className='start__form' onSubmit={searchRepo}>
-                        <FontAwesomeIcon icon={faSearch} className='start__glass' size='lg'/>
-                        <input className='start__search' name='search' placeholder='Search repo by name'/>
-                    </form>
-                    {repoState.repoList.length > 0 && displayed}
+    if (logger && typeof logger === "string") {
+        return <Redirect to={`${logger}`}/>
+    }
+    else if (!state.user) {
+        return null;
+    }
+     else {
+        return (
+            <section className='start'>
+                <div className='start__display'>
+                    <h2 className='start__title'>Welcome,</h2>
+                    <h3 className='start__user'>{state.user.data.user.login}</h3>
+                    <div className="start__box">
+                        <form className='start__form' onSubmit={searchRepo}>
+                            <FontAwesomeIcon icon={faSearch} className='start__glass' size='lg'/>
+                            <input className='start__search' name='search' placeholder='Search repo by name'/>
+                        </form>
+                        {repoState.repoList.length > 0 && displayed}
+                    </div>
                 </div>
-            </div>
-            
-            {featured && (
-                <Collab />
-            )}
-           
-        </section>
-    )
+                {featured && (
+                    <Collab />
+                )}
+            </section>
+        )
+    }
 }
 
 export default withRouter(Finder);
