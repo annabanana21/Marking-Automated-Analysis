@@ -49,8 +49,6 @@ function useLogger() {
         findStatus();
     });
 
-    console.log(gitStatus, jiraStatus);
-
     if (gitStatus === null && jiraStatus === null) {
         return null;
     } else if ((gitStatus === false && jiraStatus === false) || gitStatus === false) {

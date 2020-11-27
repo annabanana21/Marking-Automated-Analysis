@@ -7,8 +7,8 @@ import './Split.scss'
 const Split = (props) => {
     const { repoState} = useContext(RepoContext);
     const [current, setCurrent] = useState(true);
-
-    console.log(`Repo analysis: ${repoState.analysis}`);
+    console.log("analysis:")
+    console.log(repoState.analysis);
 
     return (
         <section className='split'>

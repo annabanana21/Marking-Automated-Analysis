@@ -73,7 +73,7 @@ const Finder = (props) => {
                   });
             })
         }
-    }, [])
+    }, [repoState.repoList])
 
     const searchRepo = (event) => {
         event.preventDefault();
