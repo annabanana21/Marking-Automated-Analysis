@@ -33,7 +33,9 @@ function useLogger() {
             } else {
                 try {
                     // Call Github API to check for success.
-                    const result = await axios.get(`https://api.github.com/user?access_token=${state.user.data.access_token}`);
+                    const user = JSON.parse(localStorage.getItem("user"));
+                    const userData = user && user.data && user.data.access_token;
+                    const result = await axios.get(`https://api.github.com/user?access_token=${userData}`);
                     setGitStatus(true);
                   } catch (err) {
                       dispatch({
