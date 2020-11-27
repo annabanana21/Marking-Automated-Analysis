@@ -15,6 +15,8 @@ const Collab = (props) => {
     const [show, showModal] = useState(false);
     const [start, setStart] = useState(false);
 
+    console.log(repoState, state);
+
 
     const addBoard = (event) => {
         event.preventDefault();
