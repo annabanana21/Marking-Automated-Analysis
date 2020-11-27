@@ -1,15 +1,14 @@
 import React, {useContext, useState} from 'react';
 import {RepoContext} from '../../store/RepoContext';
-import Profile from '../Profile/Profile';
 import TicketView from '../TicketView/TicketView';
 import UserView from '../UserView/UserView';
-
 import './Split.scss'
-
 
 const Split = (props) => {
     const { repoState} = useContext(RepoContext);
-    const [current, setCurrent] = useState(true)
+    const [current, setCurrent] = useState(true);
+
+    console.log(`Repo analysis: ${repoState.analysis}`);
 
     return (
         <section className='split'>

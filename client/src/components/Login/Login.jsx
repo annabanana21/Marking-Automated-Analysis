@@ -11,7 +11,6 @@ const Login = () => {
     const { state, dispatch } = useContext(AccountContext);
     const [data, setData] = useState({ errorMessage: "", isLoading: false });
 
-    console.log(state)
     const { client_id, redirect_uri } = state;
 
 
@@ -19,7 +18,7 @@ const Login = () => {
         // After requesting Github access, Github redirects back to your app with a code parameter
         const url = window.location.href;
         const hasCode = url.includes("?code=");
-        console.log(url, hasCode)
+
     
         // If Github API returns the code parameter
         if (hasCode) {
@@ -35,18 +34,15 @@ const Login = () => {
           };
     
           const proxy_url = state.proxy_url;
-          console.log(proxy_url) 
           // Use code parameter and other parameters to make POST request to proxy_server
           axios.post(proxy_url, requestData)
             .then(data => {
-              console.log(data)
               dispatch({
                 type: "LOGIN",
                 payload: { user: data, isLoggedIn: true }
               });
             })
             .catch(error => {
-              console.log(error)
               setData({
                 isLoading: false,
                 errorMessage: "Sorry! Login failed"
@@ -54,8 +50,8 @@ const Login = () => {
             });
         }
       }, [state, dispatch, data]);
-    
-      if (state.isLoggedIn) {
+
+      if (state.isLoggedIn && localStorage.getItem("isLoggedIn")) {
         return <Redirect to="/jira" />;
       }
 

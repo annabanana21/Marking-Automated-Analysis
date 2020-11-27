@@ -4,24 +4,25 @@ const { Octokit } = require("@octokit/rest");
 const axios = require('axios');
 var fs = require('fs');
 
-
-
-
 router.post("/repos", async (req, res) => {
   const {key, owner} = req.body;
 
-  const octokit = new Octokit({
-    auth: key,
-    userAgent: 'MarkerTool v1',
-    baseUrl: 'https://api.github.com'
-  })
+  try {
+    const octokit = new Octokit({
+      auth: key,
+      userAgent: 'MarkerTool v1',
+      baseUrl: 'https://api.github.com'
+    })
+  
+    let repositories = await octokit.paginate(`GET /user/repos?type=all?visibility=all`, {
+      owner: "octokit",
+      repo: "rest.js",
+    })
+    res.status(200).send(repositories)
+  } catch(err) {
+    res.status(400).send(err.message);
+  }
 
-  let repositories = await octokit.paginate(`GET /user/repos?type=all?visibility=all`, {
-    owner: "octokit",
-    repo: "rest.js",
-  })
-
-  res.status(200).send(repositories)
 })
 
 
@@ -29,13 +30,13 @@ router.post("/analysis", async (req, res) => {
 
   const {key, owner, repoName} = req.body;
   
-  const octokit = new Octokit({
-    auth: key,
-    userAgent: 'MarkerTool v1',
-    baseUrl: 'https://api.github.com'
-  })
-
+  
   try {
+    const octokit = new Octokit({
+      auth: key,
+      userAgent: 'MarkerTool v1',
+      baseUrl: 'https://api.github.com'
+    })
     // let issues = await octokit.paginate(`GET /repos/${owner}/${repoName}/issues?state=all`, {
     //   owner: "octokit",
     //   repo: "rest.js",
@@ -74,7 +75,6 @@ router.post("/analysis", async (req, res) => {
     )
     res.status(200).send(pullInfo)
   } catch (err) {
-    console.log(err)
     res.status(400).send("Something went wrong")
   }
 })
@@ -95,7 +95,6 @@ router.post("/boards", async (req, res) => {
     // });
     res.status(201).send(boards.data)
   } catch (err) {
-    console.log(err)
     res.status(400).send(err)
   }
 
@@ -141,7 +140,6 @@ router.post("/board/:boardName", async (req, res) => {
 
     res.status(201).send(fullBoardData)
   } catch (err) {
-    console.log(err)
     res.status(400).send(err)
   }
 })
@@ -153,15 +151,14 @@ router.post("/commits", async (req, res) => {
 
     const {key, owner, repoName} = req.body;
 
-    const octokit = new Octokit({
+    try {
+      const octokit = new Octokit({
         auth: key,
         userAgent: 'MarkerTool v1',
         baseUrl: 'https://api.github.com'
     })
 
     //Recieves all commits without limit of 100 (large repos)
-
-    try {
       let commits = await octokit.paginate(`GET /repos/${owner}/${repoName}/commits`, {
         owner: "octokit",
         repo: "rest.js",

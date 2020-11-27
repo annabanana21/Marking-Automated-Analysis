@@ -117,7 +117,6 @@ const combineNames = (workers) => {
         for (let i = 0; i < workersArray.length; i++) {
             let compare = workersArray[i][0]
             if (userName !== compare && similarCheck(userName, compare)) {
-                console.log(`${userName} and ${compare} and ${count}`)
                 deleted = true
                 let firstStats = workersArray[count][1]
                 if (firstStats.tickets) {

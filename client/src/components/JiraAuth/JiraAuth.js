@@ -8,16 +8,11 @@ const JiraAuth = () => {
 
     const { state, dispatch } = useContext(AccountContext);
     const [data, setData] = useState({ errorMessage: "", isLoading: false });
-
-    console.log(state)
     
-
     useEffect(() => {
-        console.log("hello")
         // After requesting Github access, Github redirects back to your app with a code parameter
         const url = window.location.href;
         const hasCode = url.includes("?code=");
-        console.log(url, hasCode)
     
         // If Github API returns the code parameter
         if (hasCode) {
@@ -27,18 +22,15 @@ const JiraAuth = () => {
 
           let actualCode = newUrl[1].split("&state=");
     
-            console.log(actualCode)
           // Use code parameter and other parameters to make POST request to proxy_server
           axios.post(`${process.env.REACT_APP_BACKEND}jira/auth`, {code: actualCode[0]})
             .then(data => {
-              console.log(data)
               dispatch({
                 type: "LOGINJIRA",
                 payload: { isLoggedInJira: true, data: {access_token: data.data.access_token, clientId: data.data.clientId} }
               });
             })
             .catch(error => {
-              console.log(error)
               setData({
                 isLoading: false,
                 errorMessage: "Sorry! Login failed"
@@ -47,7 +39,7 @@ const JiraAuth = () => {
         }
       }, [data, dispatch]);
     
-      if (state.isLoggedInJira) {
+      if (state.isLoggedInJira && localStorage.getItem("isLoggedInJira")) {
         return <Redirect to="/repos" />;
       }
     

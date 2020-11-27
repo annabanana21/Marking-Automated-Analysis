@@ -24,7 +24,6 @@ router.get('/auth', async (req, res) => {
 
 router.post('/auth', async (req, res) => {
     let code = req.body.code
-    console.log(code)
 
     let access  = await axios.post(`https://auth.atlassian.com/oauth/token`, 
         {"grant_type": "authorization_code",
@@ -50,7 +49,6 @@ router.post('/auth', async (req, res) => {
         })
     })
     .catch(err=> {
-        console.log(err)
         res.send(err)
     })
 })
@@ -70,7 +68,6 @@ router.post("/boards", (req, res) => {
         //     console.log('Saved!');
         // });
     }).catch(err => {
-        console.log(err)
         res.status(400).send(err)
     })
 })

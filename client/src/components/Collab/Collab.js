@@ -48,7 +48,6 @@ const Collab = (props) => {
                 type: "COMMITS",
                 payload: { commits: resArray[0].data, branches: resArray[1].data, collaborators: resArray[2].data}
               });
-            console.log(resArray[2].data)
             setBoards(resArray[3].data)
 
             setTimeout(() => {

@@ -10,7 +10,7 @@ function useLogger() {
     useEffect(() => {
         async function findStatus() {
             if (!state && !state.jiraData) {
-                console.log("Never logged into Jira!")
+                setJiraStatus(false);
             } else {
                 try {
                     // Call Jira API to check for success.
@@ -20,7 +20,6 @@ function useLogger() {
                     })
                     setJiraStatus(true);
                   } catch (err) {
-                      console.log("Logged out of Jira");
                       dispatch({
                         type: "LOGOUTJIRA",
                         payload: null
@@ -30,14 +29,13 @@ function useLogger() {
             }
         
             if (!state && !state.user && !state.user.data) {
-                console.log("Never logged into Github or cleared application memory!");
+                setGitStatus(false);
             } else {
                 try {
                     // Call Github API to check for success.
                     const result = await axios.get(`https://api.github.com/user?access_token=${state.user.data.access_token}`);
                     setGitStatus(true);
                   } catch (err) {
-                      console.log("Logged out of Github");
                       dispatch({
                           type: "LOGOUT",
                           payload: null
@@ -47,7 +45,9 @@ function useLogger() {
             }
         }
         findStatus();
-    })
+    });
+
+    console.log(gitStatus, jiraStatus);
 
     if (gitStatus === null && jiraStatus === null) {
         return null;

@@ -59,8 +59,6 @@ const Finder = (props) => {
         }));
     }
 
-    console.log(repoState.repoList);
-
     useEffect(() => {
         if (state.user) {
             const {access_token, user} = state.user.data;
