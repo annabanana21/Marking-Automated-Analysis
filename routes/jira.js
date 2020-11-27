@@ -17,6 +17,7 @@ Waiting on approval to use Atlassian 3Lo authentication as this process is curre
 router.get('/auth', async (req, res) => {
     
     let bound = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
+
     res.redirect(`https://auth.atlassian.com/authorize?audience=api.atlassian.com&client_id=BwcommlWMhNokzLVEZ1jXfy5Y0CwAkkY&scope=read%3Ajira-user%20read%3Ajira-work%20manage%3Ajira-project&redirect_uri=https%3A%2F%2Fauto-mark.netlify.app%2Fjira&state=${bound}&response_type=code&prompt=consent`);
 })
 
@@ -28,7 +29,7 @@ router.post('/auth', async (req, res) => {
         "client_id": process.env.REACT_APP_JIRA_CLIENT,
         "client_secret": process.env.REACT_APP_JIRA_SECRET,
         "code": code,
-        "redirect_uri": "http://localhost:3000/jira"},
+        "redirect_uri": "https://auto-mark.netlify.app/jira"},
         {
             headers: {
               'Content-Type': 'application/json'
@@ -53,6 +54,7 @@ router.post('/auth', async (req, res) => {
 
 router.post("/boards", (req, res) => {
     let {cloud, key} = req.body
+    console.log("cloud ", cloud, key)
 
     axios.get(`https://api.atlassian.com/ex/jira/${cloud}/rest/api/2/project`, {
         headers: {

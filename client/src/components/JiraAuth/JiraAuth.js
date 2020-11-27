@@ -25,12 +25,14 @@ const JiraAuth = () => {
           // Use code parameter and other parameters to make POST request to proxy_server
           axios.post(`${process.env.REACT_APP_BACKEND}jira/auth`, {code: actualCode[0]})
             .then(data => {
+              console.log("auth worked");
               dispatch({
                 type: "LOGINJIRA",
                 payload: { isLoggedInJira: true, data: {access_token: data.data.access_token, clientId: data.data.clientId} }
               });
             })
             .catch(error => {
+              console.log(error);
               setData({
                 isLoading: false,
                 errorMessage: "Sorry! Login failed"
