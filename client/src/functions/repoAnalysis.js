@@ -75,6 +75,8 @@ function repoAnalysis(repoState) {
             }
         })
 
+        console.log("before merge: ", workers);
+
         let updated = combineNames(workers);
 
 
