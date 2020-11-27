@@ -19,6 +19,7 @@ const Finder = (props) => {
     const [ displayed, setDisplay ] = useState([]);
     const logger = useLogger();
     const [featured, setFeatured] = useState(null);
+    const [isSet, setList] = useState(false);
 
     // const repoFocus = (e,repo) => {
     //     if (multiSelect) {
@@ -60,6 +61,12 @@ const Finder = (props) => {
     }
 
     useEffect(() => {
+        if (!isSet && repoState.repoList.length > 0) {
+            setList(true);
+        }
+    }, [repoState.repoList])
+
+    useEffect(() => {
         if (state.user) {
             const {access_token, user} = state.user.data;
             formatRepos(null);
@@ -73,7 +80,7 @@ const Finder = (props) => {
                   });
             })
         }
-    }, [repoState.repoList])
+    }, [isSet])
 
     const searchRepo = (event) => {
         event.preventDefault();
